@@ -6,6 +6,7 @@ CREDITS ::::: comfyui (https://github.com/comfyanonymous/ComfyUI)
               the zluda wiki page for sdnext (https://github.com/vladmandic/automatic/wiki/ZLUDA)
               brknsoul for rocm libraries (https://github.com/brknsoul/ROCmLibs)
               lshqqytiger (https://github.com/lshqqytiger/ZLUDA)
+						
            
               
   (((WINDOWS)))
