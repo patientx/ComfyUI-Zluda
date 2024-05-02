@@ -253,9 +253,27 @@ def get_torch_device_name(device):
         return "CUDA {}: {}".format(device, torch.cuda.get_device_name(device))
 
 try:
-    logging.info("Device: {}".format(get_torch_device_name(get_torch_device())))
+    torch_device_name = get_torch_device_name(get_torch_device())
+
+    if "[ZLUDA]" in torch_device_name:
+        print("***--------------------------------ZLUDA------------------------------------***")
+        print("Detected ZLUDA, support for it is experimental and comfy may not work properly.")
+
+        if torch.backends.cudnn.enabled:
+            torch.backends.cudnn.enabled = False
+            print("Disabling cuDNN because ZLUDA does currently not support it.")
+
+        torch.backends.cuda.enable_flash_sdp(False)
+        print("Disabling flash because ZLUDA does currently not support it.")
+        torch.backends.cuda.enable_math_sdp(True)
+        print("Enabling math_sdp.")
+        torch.backends.cuda.enable_mem_efficient_sdp(False)
+        print("Disabling mem_efficient_sdp because ZLUDA does currently not support it.")
+        print("***-------------------------------------------------------------------------***")
+
+    print("Device:", torch_device_name)
 except:
-    logging.warning("Could not pick default device.")
+    print("Could not pick default device.")                   
 
 logging.info("VAE dtype: {}".format(VAE_DTYPE))
 
