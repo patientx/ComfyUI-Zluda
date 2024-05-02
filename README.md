@@ -4,10 +4,16 @@ Just a quick "edit" of comfyui for using with ZLUDA.
 
 CREDITS
 comfyui (https://github.com/comfyanonymous/ComfyUI)
+
 the zluda wiki page for sdnext (https://github.com/vladmandic/automatic/wiki/ZLUDA)
+
 brknsoul for rocm libraries (https://github.com/brknsoul/ROCmLibs)
+
 lshqqytiger (https://github.com/lshqqytiger/ZLUDA)
+
 LeagueRaINi (https://github.com/LeagueRaINi/ComfyUI)
+
+
 
   (((WINDOWS)))
 
@@ -59,8 +65,11 @@ IF your amd gpu is above or equal to RX 6800 it is done so far, otherwise ;
     Open your downloaded optimized library archive and put them inside the library folder : "C:\Program Files\AMD\ROCm\5.7\bin\rocblas\library"
 
 ***** AFTER THESE INSTALLS ARE DONE REBOOT YOUR PC.  *****
+
 ***** AFTER THESE INSTALLS ARE DONE REBOOT YOUR PC.  *****
+
 ***** AFTER THESE INSTALLS ARE DONE REBOOT YOUR PC.  *****
+
 
 
  ------------------------------------------------------
@@ -112,8 +121,25 @@ keep the cmd window open, do the next two steps then come back :
     
 ***** !!! This happens again if you change / update your display driver. !!! *****
 
-**** For manual installation on windows : **** Open a cmd prompt. git clone https://github.com/patientx/ComfyUI-Zluda.git cd ComfyUI-Zluda
+**** For manual installation on windows : ****
+Open a cmd prompt. 
+git clone https://github.com/patientx/ComfyUI-Zluda.git 
+cd ComfyUI-Zluda
 pip install -r requirements.txt
+
+keep the cmd window open, do the next two steps then come back :
+
+      We need to add change some files before going forward, Open explorer go to your ZLUDA folder, copy these three files into : " [comfyui folder]\venv\Lib\site-packages\torch\lib\ " (write over the original files)
+       cublas.dll  , cusparse.dll , nvrtc.dll 
+       Rename those three into these :
+    "cublas.dll" to "cublas64_11.dll" , "cusparse.dll" to "cusparse64_11.dll" , "nvrtc.dll" to "nvrtc64_112_0.dll".
+
+  now start the app with :
+    python main.py
+
+  The first run would take a few minutes, there won't any progress or indicator on the webui or cmd window, just wait. It creates some files for use with generation with your gpu. 
+    
+***** !!! This happens again if you change / update your display driver. !!! *****
 
 
       
