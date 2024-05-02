@@ -2,8 +2,12 @@ ComfyUI
 =======
 Just a quick "edit" of comfyui for using with ZLUDA.
 
-CREDITS ::::: comfyui , 
-              the zluda wiki page for sdnext (https://github.com/vladmandic/automatic/wiki/ZLUDA) , brknsoul for rocm libraries (https://github.com/brknsoul/ROCmLibs) 
+CREDITS ::::: comfyui (https://github.com/comfyanonymous/ComfyUI)
+              the zluda wiki page for sdnext (https://github.com/vladmandic/automatic/wiki/ZLUDA)
+              brknsoul for rocm libraries (https://github.com/brknsoul/ROCmLibs)
+              lshqqytiger (https://github.com/lshqqytiger/ZLUDA)
+           
+              
   (((WINDOWS)))
   
 If coming from the very start, you need :
@@ -18,24 +22,34 @@ If coming from the very start, you need :
   Add that folder with the files inside , to PATH :::
  
      (1) Click the Start button, type "env", click "Edit the system environment variables", then click the "Environment Variables" button at the bottom.
-     (2) On the lower part (System Variables) , there is a variable called "Path" (might be a bit lower on the list , scroll down if necessary). 
-         Click on it, click "Edit". Click "New". Add your zluda folder directory there for example : D:\ZLUDA . Click OK, OK. Done.
+     
+     (2) On the lower part (System Variables) , there is a variable called "Path" (might be a bit lower on the list , scroll down if necessary).
+     
+           Click on it, click "Edit". Click "New". Add your zluda folder directory there for example : D:\ZLUDA . Click OK, OK. Done.
 
 *** (2) You need install HIP SDK 5.7.1 from https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html
       
      (1) Click the Start button, type "env", click "Edit the system environment variables", then click the "Environment Variables" button at the bottom.
      
      (2) Check the variables on the lower part (System Variables) , there should be a variable called : HIP_PATH . 
-            IF there isn't, click the new button, name : HIP_PATH , value : C:\Program Files\AMD\ROCm\5.7\ (this is the default folder, if you installed it on another drive, change if necessary)
+     
+            IF there isn't, click the new button, name : HIP_PATH , value : C:\Program Files\AMD\ROCm\5.7\ 
+            (this is the default folder, if you installed it on another drive, change if necessary)
             
      (3) On the lower part (System Variables) , there is a variable called "Path" (might be a bit lower on the list , scroll down if necessary). 
-         Click on it, click "Edit". Click "New". Add your %HIP_PATH% folder directory there such as : C:\Program Files\AMD\ROCm\5.7\bin . Click OK, OK. Done.
+     
+           Click on it, click "Edit". Click "New". Add your %HIP_PATH% folder directory there such as : 
+           C:\Program Files\AMD\ROCm\5.7\bin
+           Click OK, OK. Done.
 
 IF your amd gpu is above or equal to RX 6800 it is done so far, otherwise ;
 
     if you an AMD GPU below 6800 (6700,6600 etc.) , download the recommended library files for you gpu from : https://github.com/brknsoul/ROCmLibs/
+    
     (For example for an RX6600 or its variants, you should get : https://github.com/brknsoul/ROCmLibs/blob/main/Optimised_ROCmLibs_gfx1032.7z)
+    
     Go to folder C:\Program Files\AMD\ROCm\5.7\bin\rocblas , there would be a "library" folder, backup the files inside to somewhere else. 
+    
     Open your downloaded optimized library archive and put them inside the library folder : "C:\Program Files\AMD\ROCm\5.7\bin\rocblas\library"
 
 ***** AFTER THESE INSTALLS ARE DONE REBOOT YOUR PC.  *****
@@ -60,6 +74,7 @@ IF your amd gpu is above or equal to RX 6800 it is done so far, otherwise ;
           Get them from this repo and replace them with the files; "cuda_malloc.py" in main folder and  "model_management.py" under /comfy folder.
     
     (2) Open explorer , go to your ZLUDA folder, copy these three files into : " [comfyui folder]\venv\Lib\site-packages\torch\lib\ " (write over the original files)
+    
        cublas.dll  , cusparse.dll , nvrtc.dll 
        Rename those three into these :
     "cublas.dll" to "cublas64_11.dll" , "cusparse.dll" to "cusparse64_11.dll" , "nvrtc.dll" to "nvrtc64_112_0.dll".
