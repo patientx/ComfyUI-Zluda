@@ -92,13 +92,13 @@ IF your amd gpu is above or equal to RX 6800 it is done so far, otherwise ;
 ***** !!! This happens again if you change / update your display driver. !!! *****
   
   ----------------------------------------------
-  **** For manual installation on windows : **** 
-    Open a cmd prompt.
-      git clone https://github.com/patientx/ComfyUI-Zluda.git
-      cd ComfyUI-Zluda  
-      pip install -r requirements.txt
+**** For manual installation on windows : **** 
+Open a cmd prompt. 
+git clone https://github.com/patientx/ComfyUI-Zluda.git 
+cd ComfyUI-Zluda
+pip install -r requirements.txt
 
-   keep the cmd window open, do the next two steps then come back :
+keep the cmd window open, do the next two steps then come back :
 
       We need to add change some files before going forward, Open explorer go to your ZLUDA folder, copy these three files into : " [comfyui folder]\venv\Lib\site-packages\torch\lib\ " (write over the original files)
        cublas.dll  , cusparse.dll , nvrtc.dll 
@@ -112,7 +112,8 @@ IF your amd gpu is above or equal to RX 6800 it is done so far, otherwise ;
     
 ***** !!! This happens again if you change / update your display driver. !!! *****
 
-
+**** For manual installation on windows : **** Open a cmd prompt. git clone https://github.com/patientx/ComfyUI-Zluda.git cd ComfyUI-Zluda
+pip install -r requirements.txt
 
 
       
