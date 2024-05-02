@@ -2,24 +2,29 @@ ComfyUI
 =======
 Just a quick "edit" of comfyui for using with ZLUDA.
 
-CREDITS ::::: comfyui (https://github.com/comfyanonymous/ComfyUI)
-              the zluda wiki page for sdnext (https://github.com/vladmandic/automatic/wiki/ZLUDA)
-              brknsoul for rocm libraries (https://github.com/brknsoul/ROCmLibs)
-              lshqqytiger (https://github.com/lshqqytiger/ZLUDA)
-						
-           
-              
+CREDITS
+comfyui (https://github.com/comfyanonymous/ComfyUI)
+the zluda wiki page for sdnext (https://github.com/vladmandic/automatic/wiki/ZLUDA)
+brknsoul for rocm libraries (https://github.com/brknsoul/ROCmLibs)
+lshqqytiger (https://github.com/lshqqytiger/ZLUDA)
+LeagueRaINi (https://github.com/LeagueRaINi/ComfyUI)
+
   (((WINDOWS)))
-  
+
 If coming from the very start, you need :
 
-(1) Git                            ::: download from https://git-scm.com/download/win . 
+(1) Git : download from https://git-scm.com/download/win .
+
     During installation don't forget to check the box for "Use Git from the Windows Command line and also from 3rd-party-software" to add Git to your system's PATH .
-(2) Python (3.10.11 specifically)  ::: download from https://www.python.org/ftp/python/3.10.11/python-3.10.11-amd64.exe . During installation
+    
+(2) Python (3.10.11 specifically) : download from https://www.python.org/ftp/python/3.10.11/python-3.10.11-amd64.exe . During installation
+
     During installation don't forget to check the box for "Add Python to PATH when you are at the the "Customize Python" screen.
-(3) Visual C++ Runtime             ::: download from https://aka.ms/vs/17/release/vc_redist.x64.exe , install it.
+    
+(3) Visual C++ Runtime : download from https://aka.ms/vs/17/release/vc_redist.x64.exe , install it.
 
 *** (1) Download latest ZLUDA from : https://github.com/lshqqytiger/ZLUDA/releases (ZLUDA-windows-amd64.zip). Extract the archive to a folder.
+
   Add that folder with the files inside , to PATH :::
  
      (1) Click the Start button, type "env", click "Edit the system environment variables", then click the "Environment Variables" button at the bottom.
@@ -57,14 +62,13 @@ IF your amd gpu is above or equal to RX 6800 it is done so far, otherwise ;
 ***** AFTER THESE INSTALLS ARE DONE REBOOT YOUR PC.  *****
 ***** AFTER THESE INSTALLS ARE DONE REBOOT YOUR PC.  *****
 
-  Modified the necessary files and requirements.txt to install the correct packages.
- 
+
  ------------------------------------------------------
  **** If you already have a comfyui installation : ****
       Open a cmd prompt.
         Go to the comfyui folder. And execute those commands :
         For example if it is in "D:\comfyui" , enter :  
-          
+	
           cd /d D:\comfyui (press enter) 
           pip uninstall torch torchvision -y (press enter) 
           pip install torch==2.2.0 torchvision --index-url https://download.pytorch.org/whl/cu118 (press enter) 
