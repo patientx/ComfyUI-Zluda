@@ -1,4 +1,4 @@
-torch
+torch==2.2.0+cu118
 torchsde
 torchvision
 einops
