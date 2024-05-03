@@ -4,10 +4,12 @@
 import logging
 import os
 import shutil
-import urllib
+import urllib.request
 import zipfile
 
+logging.basicConfig(level=logging.DEBUG, filename='ZludaPatch.log', filemode='w', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log = logging.getLogger("sd")
+
 
 zluda_ver = "rel.2804604c29b5fa36deca9ece219d3970b61d4c27"
 
@@ -15,7 +17,6 @@ def find_zluda():
     zluda_path = os.environ.get('ZLUDA', None)
     if zluda_path is None:
         paths = os.environ.get('PATH', '').split(';')
-        log.debug(f'ZLUDA: searching for ZLUDA in PATH: {paths}')
         for path in paths:
             if os.path.exists(os.path.join(path, 'zluda_redirect.dll')):
                 zluda_path = path
@@ -42,21 +43,32 @@ def patch_zluda():
     try:
         for k, v in dlls_to_patch.items():
             shutil.copyfile(os.path.join(zluda_path, k), os.path.join(venv_dir, 'Lib', 'site-packages', 'torch', 'lib', v))
+            log.info(f'ZLUDA: patched {k} with {v}')
     except Exception as e:
         log.warning(f'ZLUDA: failed to automatically patch torch: {e}')
 
 
 def main():
+    log.info('Starting ZLUDA patch...')
     if os.environ.get('ZLUDA', None) is None:
         log.warning('ZLUDA environment variable is not set. ZLUDA is required for ZLUDAPatch.')
-
         log.info('Downloading ZLUDA...')
-        zluda_url = f"https://github.com/lshqqytiger/ZLUDA/releases/download/{zluda_ver}/ZLUDA-windows-amd64.zip"
-        archive_type = zipfile.ZipFile       
-        urllib.request.urlretrieve(zluda_url, '_zluda')
-        log.info('Extracting ZLUDA...')
-        with archive_type('_zluda', 'r') as f:
-            f.extractall('.zluda')
-            zluda_path = os.path.abspath('./.zluda')
-        os.remove('_zluda')
+        try:
+            zluda_url = f"https://github.com/lshqqytiger/ZLUDA/releases/download/{zluda_ver}/ZLUDA-windows-amd64.zip"
+            archive_type = zipfile.ZipFile       
+            urllib.request.urlretrieve(zluda_url, '_zluda')
+            log.info('Extracting ZLUDA...')
+            with archive_type('_zluda', 'r') as f:
+                f.extractall('.zluda')
+                zluda_path = os.path.abspath('./.zluda/zluda')
+            os.remove('_zluda')
+            os.environ['ZLUDA'] = zluda_path
+        except Exception as e:
+            log.error(f'Failed to download ZLUDA: {e}')
+            return
+    log.debug(f'ZLUDA path: {os.environ.get("ZLUDA")}')
     patch_zluda()
+    
+    
+if __name__ == '__main__':
+    main()
