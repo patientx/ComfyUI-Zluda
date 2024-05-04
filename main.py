@@ -6,15 +6,6 @@ import importlib.util
 import folder_paths
 import time
 
-def check_zluda():
-    if os.environ.get('ZLUDA', None) is None:
-        logging.info("ZLUDA environment variable is not set. check .zluda folder.")
-        if os.path.exists('./.zluda'):
-            zluda_path = os.path.abspath('./.zluda/zluda')
-            os.environ['ZLUDA'] = zluda_path
-            logging.info(f"ZLUDA path: {os.environ.get('ZLUDA')}")
-
-
 def execute_prestartup_script():
     def execute_script(script_path):
         module_name = os.path.splitext(script_path)[0]
@@ -197,7 +188,6 @@ def load_extra_path_config(yaml_path):
 
 
 if __name__ == "__main__":
-    check_zluda()
     if args.temp_directory:
         temp_dir = os.path.join(os.path.abspath(args.temp_directory), "temp")
         logging.info(f"Setting temp directory to: {temp_dir}")
