@@ -525,6 +525,13 @@ export class ComfyUI {
 			this.queue.element,
 			this.history.element,
 			$el("button", {
+				id: "comfy-cancel-button",
+				textContent: "Stop Gen.",
+				onclick: () => {
+					api.interrupt()
+				},
+			}),
+			$el("button", {
 				id: "comfy-save-button",
 				textContent: "Save",
 				onclick: () => {
