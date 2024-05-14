@@ -104,6 +104,7 @@ def get_total_memory(dev=None, torch_total_too=False):
             mem_reserved = stats['reserved_bytes.all.current']
             mem_total_torch = mem_reserved
             mem_total = torch.xpu.get_device_properties(dev).total_memory
+                                          
         else:
             stats = torch.cuda.memory_stats(dev)
             mem_reserved = stats['reserved_bytes.all.current']
@@ -253,9 +254,27 @@ def get_torch_device_name(device):
         return "CUDA {}: {}".format(device, torch.cuda.get_device_name(device))
 
 try:
-    logging.info("Device: {}".format(get_torch_device_name(get_torch_device())))
+    torch_device_name = get_torch_device_name(get_torch_device())
+
+    if "[ZLUDA]" in torch_device_name:
+        print("***--------------------------------ZLUDA------------------------------------***")
+        print("Detected ZLUDA, support for it is experimental and comfy may not work properly.")
+
+        if torch.backends.cudnn.enabled:
+            torch.backends.cudnn.enabled = False
+            print("Disabling cuDNN because ZLUDA does currently not support it.")
+
+        torch.backends.cuda.enable_flash_sdp(False)
+        print("Disabling flash because ZLUDA does currently not support it.")
+        torch.backends.cuda.enable_math_sdp(True)
+        print("Enabling math_sdp.")
+        torch.backends.cuda.enable_mem_efficient_sdp(False)
+        print("Disabling mem_efficient_sdp because ZLUDA does currently not support it.")
+        print("***-------------------------------------------------------------------------***")
+
+    print("Device:", torch_device_name)
 except:
-    logging.warning("Could not pick default device.")
+    print("Could not pick default device.")                   
 
 logging.info("VAE dtype: {}".format(VAE_DTYPE))
 
@@ -313,7 +332,6 @@ class LoadedModel:
         if force_patch_weights and self.model.lowvram_patch_counter > 0:
             return True
         return False
-
     def model_unload(self, unpatch_weights=True):
         self.model.unpatch_model(self.model.offload_device, unpatch_weights=unpatch_weights)
         self.model.model_patches_to(self.model.offload_device)
@@ -701,6 +719,7 @@ def get_free_memory(dev=None, torch_free_too=False):
         elif is_intel_xpu():
             stats = torch.xpu.memory_stats(dev)
             mem_active = stats['active_bytes.all.current']
+                                                                
             mem_reserved = stats['reserved_bytes.all.current']
             mem_free_torch = mem_reserved - mem_active
             mem_free_xpu = torch.xpu.get_device_properties(dev).total_memory - mem_reserved
