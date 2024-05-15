@@ -21,12 +21,12 @@ echo *** Updating the pip package
 python.exe -m pip install --upgrade pip --quiet
 echo .....................................................
 echo *** Installing required packages
-:: pip install -r requirements.txt
+pip install -r requirements.txt
 echo ..................................................... 
 echo *** Installing torch for amd gpu's (First file is 2.7 GB so be patient)
 echo.
-:: pip uninstall torch torchvision -y
-:: pip install torch==2.2.0 torchvision --index-url https://download.pytorch.org/whl/cu118
+pip uninstall torch torchvision -y
+pip install torch==2.2.0 torchvision --index-url https://download.pytorch.org/whl/cu118
 echo .....................................................
 echo *** Installing Comfyui Manager
 echo.
