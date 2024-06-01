@@ -51,4 +51,4 @@ echo *** Installation is done. You can start.bat to start the app later.
 echo *** For now app is going to start for the first time.
 echo .....................................................
 echo.
-dir
+.\zluda\zluda.exe -- python main.py
