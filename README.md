@@ -4,7 +4,7 @@ Just a quick "edit" of comfyui for using with ZLUDA .
 
 <h2>## What's New ?</h2>
 
-(06.02) :: Updated ZLUDA and "torch" to the latest versions, also added Comfyui-Impact-Pack auto install. A lot of important stuff for people coming from other sd-webuis.So it is recommended to run install.bat once again for a clean overall update.
+(06.02) :: Updated "torch" to the latest versions, also added Comfyui-Impact-Pack auto install. A lot of important stuff for people coming from other sd-webuis.So it is recommended to run install.bat once again for a clean overall update.
 
 (05.26) :: If you update after today [ ComfyUI Revision: 2211 [16a493a1] | Released on '2024-05-26' ] Please re-run install.bat , there is a new package needed to be installed and after that we would also need to reapply the necessary torch changes , so to do this the easy way , be sure to update with "git pull" inside the folder, just run install.bat , it will setup the necessary stuff once again.
 
