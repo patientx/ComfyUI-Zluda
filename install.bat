@@ -34,7 +34,11 @@ echo *** Installing Comfyui Manager
 echo.
 cd custom_nodes
 git clone https://github.com/ltdrdata/ComfyUI-Manager.git
-echo ..................................................... 
+echo .....................................................
+echo *** Installing ComfyUI-deepcache
+echo.
+git clone https://github.com/styler00dollar/ComfyUI-deepcache.git
+echo .....................................................
 echo *** Installing ComfyUI-Impact-Pack
 echo.
 git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git
