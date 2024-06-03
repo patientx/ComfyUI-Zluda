@@ -24,10 +24,12 @@ echo *** Installing required packages
 pip install -r requirements.txt
 echo ..................................................... 
 echo *** Installing torch for AMD GPUs (First file is 2.7 GB, please be patient)
-echo.
 pip uninstall torch torchvision -y
 pip install torch==2.3.0 torchvision --index-url https://download.pytorch.org/whl/cu118
 echo .....................................................
+echo *** Installing onnxruntime (required by some nodes)
+pip install onnxruntime
+echo ..................................................... 
 echo *** Installing Comfyui Manager
 echo.
 cd custom_nodes
