@@ -89,3 +89,4 @@ patchzluda.bat
   If they are there but bigger files run : ``` patchzluda.bat ```
 - if for some reason you can't solve with these and want to start from zero, delete "venv" folder and re-run ``` install.bat ```
 - If you can't git pull to the latest version , run these commands, ``` git fetch --all ``` and then ``` git reset --hard origin/master ``` now you can git pull
+- Problems with "caffe2_nvrtc.dll" : if you are sure you properly installed hip and can see it on path, please DON'T use python from windows store, use the link provided or 3.11 from the official website. After uninstalling python from windows store and installing the one from the website, be sure the delete venv folder, and run install.bat once again.
