@@ -34,7 +34,7 @@ If coming from the very start, you need :
 1. **Git** : download from https://git-scm.com/download/win .
 	During installation don't forget to check the box for "Use Git from the Windows Command line and also from 3rd-party-software" to add Git to your system's PATH .
 
-2. **Python** (3.10.11 specifically) : download from https://www.python.org/ftp/python/3.10.11/python-3.10.11-amd64.exe . During installation
+2. **Python** (3.10.11 or 3.11 from the official website) : Install latest release from python.org .  DON'T USE WINDOWS STORE VERSION. If you have that installed, uninstall and please install from python.org .
 	  During installation don't forget to check the box for "Add Python to PATH when you are at the the "Customize Python" screen.
 
 3. **Visual C++ Runtime** : download from https://aka.ms/vs/17/release/vc_redist.x64.exe , install it.
