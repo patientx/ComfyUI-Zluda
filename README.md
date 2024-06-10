@@ -1,6 +1,6 @@
 <h1># ComfyUI-ZLUDA</h1>
 
-Just a quick "edit" of comfyui for using with ZLUDA .
+* Windows only version of comfyui which uses ZLUDA to get better performance with AMD GPUs.
 
 <h2>## What's New ?</h2>
 
