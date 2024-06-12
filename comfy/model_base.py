@@ -207,9 +207,6 @@ class BaseModel(torch.nn.Module):
         unet_state_dict = self.diffusion_model.state_dict()
         unet_state_dict = self.model_config.process_unet_state_dict_for_saving(unet_state_dict)
 
-        if self.get_dtype() == torch.float16:
-            extra_sds = map(lambda sd: utils.convert_sd_to(sd, torch.float16), extra_sds)
-
         if self.model_type == ModelType.V_PREDICTION:
             unet_state_dict["v_pred"] = torch.tensor([])
 
@@ -578,3 +575,15 @@ class SD3(BaseModel):
         if cross_attn is not None:
             out['c_crossattn'] = comfy.conds.CONDRegular(cross_attn)
         return out
+
+    def memory_required(self, input_shape):
+        if comfy.model_management.xformers_enabled() or comfy.model_management.pytorch_attention_flash_attention():
+            dtype = self.get_dtype()
+            if self.manual_cast_dtype is not None:
+                dtype = self.manual_cast_dtype
+            #TODO: this probably needs to be tweaked
+            area = input_shape[0] * input_shape[2] * input_shape[3]
+            return (area * comfy.model_management.dtype_size(dtype) * 0.012) * (1024 * 1024)
+        else:
+            area = input_shape[0] * input_shape[2] * input_shape[3]
+            return (area * 0.3) * (1024 * 1024)
