@@ -24,8 +24,8 @@ echo *** Installing required packages
 pip install -r requirements.txt
 echo ..................................................... 
 echo *** Installing torch for AMD GPUs (First file is 2.7 GB, please be patient)
-pip uninstall torch torchvision -y
-pip install torch==2.3.0 torchvision --index-url https://download.pytorch.org/whl/cu118
+pip uninstall torch torchvision torchaudio -y
+pip install torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --index-url https://download.pytorch.org/whl/cu118
 echo .....................................................
 echo *** Installing onnxruntime (required by some nodes)
 pip install onnxruntime
@@ -50,7 +50,7 @@ echo .....................................................
 echo *** "Patching ZLUDA"
 echo.
 rmdir /S /q zluda
-curl -s -L https://github.com/lshqqytiger/ZLUDA/releases/download/rel.2804604c29b5fa36deca9ece219d3970b61d4c27/ZLUDA-windows-amd64.zip > zluda.zip
+curl -s -L https://github.com/lshqqytiger/ZLUDA/releases/download/rel.11cc5844514f93161e0e74387f04e2c537705a82/ZLUDA-windows-amd64.zip > zluda.zip
 tar -xf zluda.zip
 del zluda.zip
 copy zluda\cublas.dll venv\Lib\site-packages\torch\lib\cublas64_11.dll /y
