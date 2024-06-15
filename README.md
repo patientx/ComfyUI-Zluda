@@ -4,6 +4,8 @@
 
 <h2>## What's New ?</h2>
 
+(06.16) :: Due to comfyui's addition of torchaudio to its requirements, it is recommended to run install.bat once again for a clean overall update.
+
 (06.10) :: Updated ZLUDA to the latest version. After pulling the latest version with "git pull" while inside the directory, please run "patchzluda.bat" to get to the latest zluda version. Note: You need to restart your pc and also please note that the database building will happen once more.
 
 (06.03) :: Added onnxruntime package to autoinstall, it is required by some nodes. Added "Comfyui-deepcache" . It is very useful and can double your generation speed at a minimal loss when used properly. Here is an [example workflow](https://github.com/patientx/ComfyUI-Zluda/blob/master/deepcache-sample.json) and some explanation inside it.
