@@ -87,6 +87,9 @@ patchzluda.bat
 
 - wipe your pip cache ( C:\Users\[your windows username]\AppData\Local\pip\cache )
   You can also do this when venv is active with : ``` pip cache purge ```
+  
+- ```xformers``` isn't usable with zluda so any nodes / packages that require it doesn't work. ```Flash attention``` doesn't work. And lastly using ```codeformer``` for face restoration gives "Failed inference: CUDA driver error: unknown error" You should use gfpgan / gpen / restoreformer or other face restoration models.
+  
 - have the latest drivers installed for your amd gpu. ALSO REMOVE ANY NVIDIA DRIVERS you might have from previous nvidia gpu's.
 - if you see zluda errors make sure these three files are inside "ComfyUI-Zluda\venv\Lib\site-packages\torch\lib\" 
    cublas64_11.dll (196kb) cusparse64_11.dll (193kb) nvrtc64_112_0.dll (125kb)
