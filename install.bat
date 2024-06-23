@@ -31,6 +31,9 @@ pip uninstall torch torchvision torchaudio -y --quiet
 pip install torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --index-url https://download.pytorch.org/whl/cu118 --quiet
 echo  ::  %time:~0,8%  ::  - Installing onnxruntime (required by some nodes)
 pip install onnxruntime --quiet
+echo  ::  %time:~0,8%  ::  - (temporary numpy fix)
+pip uninstall numpy -y --quiet
+pip install numpy==1.26.0 --quiet
 echo.
 echo  ::  %time:~0,8%  ::  Custom node(s) installation ...
 echo. 
