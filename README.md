@@ -4,6 +4,8 @@
 
 <h2>## What's New ?</h2>
 
+(06.25) :: Added auto updating to "start.bat" . Just run  ``` git pull ``` once the command prompt inside comfyui-zluda folder from now on it would auto update to latest version on startup.
+
 (06.16) :: Due to comfyui's addition of torchaudio to its requirements, it is recommended to run install.bat once again for a clean overall update.
 
 (06.10) :: Updated ZLUDA to the latest version. After pulling the latest version with "git pull" while inside the directory, please run "patchzluda.bat" to get to the latest zluda version. Note: You need to restart your pc and also please note that the database building will happen once more.
