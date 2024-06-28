@@ -56,7 +56,7 @@ del zluda.zip
 copy zluda\cublas.dll venv\Lib\site-packages\torch\lib\cublas64_11.dll /y >NUL
 copy zluda\cusparse.dll venv\Lib\site-packages\torch\lib\cusparse64_11.dll /y >NUL
 copy zluda\nvrtc.dll venv\Lib\site-packages\torch\lib\nvrtc64_112_0.dll /y >NUL
-@echo ::  %time:~0,8%  ::  - ZLUDA is patched.
+@echo  ::  %time:~0,8%  ::  - ZLUDA is patched.
 echo. 
 set "endTime=%time: =0%"
 set "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"
