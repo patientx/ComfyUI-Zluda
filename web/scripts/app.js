@@ -1084,7 +1084,7 @@ export class ComfyApp {
 			if (e.type == "keydown" && !e.repeat) {
 
 				// Ctrl + M mute/unmute
-				if (e.key === 'm' && e.ctrlKey) {
+				if (e.key === 'm' && (e.metaKey || e.ctrlKey)) {
 					if (this.selected_nodes) {
 						for (var i in this.selected_nodes) {
 							if (this.selected_nodes[i].mode === 2) { // never
@@ -1098,7 +1098,7 @@ export class ComfyApp {
 				}
 
 				// Ctrl + B bypass
-				if (e.key === 'b' && e.ctrlKey) {
+				if (e.key === 'b' && (e.metaKey || e.ctrlKey)) {
 					if (this.selected_nodes) {
 						for (var i in this.selected_nodes) {
 							if (this.selected_nodes[i].mode === 4) { // never
@@ -2314,14 +2314,14 @@ export class ComfyApp {
 				} else if(this.isApiJson(jsonContent)) {
 					this.loadApiJson(jsonContent, fileName);
 				} else {
-					await this.loadGraphData(jsonContent, true, fileName);
+					await this.loadGraphData(jsonContent, true, true, fileName);
 				}
 			};
 			reader.readAsText(file);
 		} else if (file.name?.endsWith(".latent") || file.name?.endsWith(".safetensors")) {
 			const info = await getLatentMetadata(file);
 			if (info.workflow) {
-				await this.loadGraphData(JSON.parse(info.workflow), true, fileName);
+				await this.loadGraphData(JSON.parse(info.workflow), true, true, fileName);
 			} else if (info.prompt) {
 				this.loadApiJson(JSON.parse(info.prompt));
 			} else {
