@@ -1,6 +1,8 @@
 * Here be some example workflows.
 
   - Basic Workflow
+ 
+  - Using LORA's and custom VAE
 
   - Basic With Deepcache
 
@@ -9,5 +11,3 @@
   - Using Pony Models
  
   - Upscaling
-
-   
