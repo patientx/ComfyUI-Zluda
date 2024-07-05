@@ -1887,6 +1887,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 
 EXTENSION_WEB_DIRS = {}
 
+
 def load_custom_node(module_path, ignore=set()):
     module_name = os.path.basename(module_path)
     if os.path.isfile(module_path):
@@ -2016,6 +2017,17 @@ def init_builtin_extra_nodes():
     for node_file in extras_files:
         if not load_custom_node(os.path.join(extras_dir, node_file)):
             import_failed.append(node_file)
+
+    return import_failed
+
+
+def init_extra_nodes(init_custom_nodes=True):
+    import_failed = init_builtin_extra_nodes()
+
+    if init_custom_nodes:
+        init_external_custom_nodes()
+    else:
+        logging.info("Skipping loading of custom nodes")
 
     if len(import_failed) > 0:
         logging.warning("WARNING: some comfy_extras/ nodes did not import correctly. This may be because they are missing some dependencies.\n")
