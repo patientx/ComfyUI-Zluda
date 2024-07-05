@@ -232,3 +232,4 @@ See also: [https://www.comfy.org/](https://www.comfy.org/)
 ### Which GPU should I buy for this?
 
 [See this page for some recommendations](https://github.com/comfyanonymous/ComfyUI/wiki/Which-GPU-should-I-buy-for-ComfyUI)
+
