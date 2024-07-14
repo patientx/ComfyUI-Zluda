@@ -45,7 +45,7 @@ If coming from the very start, you need :
 
 3. **Visual C++ Runtime** : download from https://aka.ms/vs/17/release/vc_redist.x64.exe , install it.
 
-4. Install **HIP SDK 5.7.1** from https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html
+4. Install **HIP SDK 5.7.1** from https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html (UPDATE: HIP 6.1.2 released now, but there are problems so no need to use that one please be careful about selecting the correct version, "Windows 10 & 11	5.7.1	HIP SDK"
 
 5.  add the system variable HIP_PATH , value : C:\\Program Files\\AMD\\ROCm\\5.7\\ (this is the default folder, if you installed it on another drive, change if necessary)
 
