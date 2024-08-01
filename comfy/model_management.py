@@ -336,7 +336,7 @@ class LoadedModel:
         return self.model is other.model
 
 def minimum_inference_memory():
-    return (1024 * 1024 * 1024)
+    return (1024 * 1024 * 1024) * 1.2
 
 def unload_model_clones(model, unload_weights_only=True, force_unload=True):
     to_unload = []
@@ -667,17 +667,28 @@ def supports_cast(device, dtype): #TODO
         return True
     if dtype == torch.float16:
         return True
-    if is_device_mps(device):
-        return False
     if directml_enabled: #TODO: test this
         return False
     if dtype == torch.bfloat16:
         return True
+    if is_device_mps(device):
+        return False
     if dtype == torch.float8_e4m3fn:
         return True
     if dtype == torch.float8_e5m2:
         return True
     return False
+
+def pick_weight_dtype(dtype, fallback_dtype, device=None):
+    if dtype is None:
+        dtype = fallback_dtype
+    elif dtype_size(dtype) > dtype_size(fallback_dtype):
+        dtype = fallback_dtype
+
+    if not supports_cast(device, dtype):
+        dtype = fallback_dtype
+
+    return dtype
 
 def device_supports_non_blocking(device):
     if is_device_mps(device):
@@ -895,9 +906,9 @@ def should_use_bf16(device=None, model_params=0, prioritize_performance=True, ma
         if is_device_cpu(device): #TODO ? bf16 works on CPU but is extremely slow
             return False
 
-    if device is not None: #TODO not sure about mps bf16 support
+    if device is not None:
         if is_device_mps(device):
-            return False
+            return True
 
     if FORCE_FP32:
         return False
@@ -905,7 +916,10 @@ def should_use_bf16(device=None, model_params=0, prioritize_performance=True, ma
     if directml_enabled:
         return False
 
-    if cpu_mode() or mps_mode():
+    if mps_mode():
+        return True
+
+    if cpu_mode():
         return False
 
     if is_intel_xpu():
