@@ -32,7 +32,7 @@ If coming from the very start, you need :
 
 4. Install **HIP SDK 5.7.1** from https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html ((UPDATE: HIP 6.1.2 released now, but there are problems so no need to use that one please be careful about selecting the correct version, "Windows 10 & 11	5.7.1	HIP SDK"))
 
-5.  add the system variable HIP_PATH , value : C:\\Program Files\\AMD\\ROCm\\5.7\\ (this is the default folder, if you installed it on another drive, change if necessary)
+5.  Add the system variable HIP_PATH , value : C:\\Program Files\\AMD\\ROCm\\5.7\\ (this is the default folder, if you installed it on another drive, change if necessary)
 
 - 	1. Check the variables on the lower part (System Variables) , there should be a variable called : HIP_PATH .
 - 	2. Also check the variables on the lower part (System Variables) , there should be a variable called : "Path".	   Double click it and click "New" add this : C:\Program Files\AMD\ROCm\5.7\bin
@@ -42,7 +42,7 @@ If coming from the very start, you need :
 - 	1. Go to folder C:\Program Files\AMD\ROCm\5.7\bin\rocblas , there would be a "library" folder, backup the files inside to somewhere else.
 - 	2. Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary) : "C:\\Program Files\\AMD\\ROCm\\5.7\\bin\\rocblas\\library"
 
-7. Reboot you system.
+7. Reboot your system.
 </details>
 
 <h2>## SETUP (FOR WINDOWS ONLY)</h2>
