@@ -37,7 +37,7 @@ If coming from the very start, you need :
 - 	1. Check the variables on the lower part (System Variables) , there should be a variable called : HIP_PATH .
 - 	2. Also check the variables on the lower part (System Variables) , there should be a variable called : "Path".	   Double click it and click "New" add this : C:\Program Files\AMD\ROCm\5.7\bin
 	
-6. If you an AMD GPU below 6800 (6700,6600 etc.) , download the recommended library files for you gpu from : https://github.com/brknsoul/ROCmLibs/
+6. If you have an AMD GPU below 6800 (6700,6600 etc.) , download the recommended library files for you gpu from : https://github.com/brknsoul/ROCmLibs/
 
 - 	1. Go to folder C:\Program Files\AMD\ROCm\5.7\bin\rocblas , there would be a "library" folder, backup the files inside to somewhere else.
 - 	2. Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary) : "C:\\Program Files\\AMD\\ROCm\\5.7\\bin\\rocblas\\library"
