@@ -84,6 +84,9 @@ if not exist "%torch_dir%" (
 
 :: Copy necessary files
 echo Copying files to Torch library...
+if "%target_dir%"=="Normal" (
+    cd zluda
+)
 copy cublas.dll "%torch_dir%\cublas64_11.dll" /Y >nul 2>&1
 if %errorlevel% neq 0 set "error_occurred=1"
 copy cusparse.dll "%torch_dir%\cusparse64_11.dll" /Y >nul 2>&1
