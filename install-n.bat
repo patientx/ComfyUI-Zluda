@@ -1,16 +1,43 @@
 @echo off
+chcp 65001 >nul
 
 title ComfyUI-Zluda Installer
 
+set HIP_SDK_DIR=C:\Program Files\AMD\ROCm\6.5
 set ZLUDA_COMGR_LOG_LEVEL=1
+set ESC=
+
 setlocal EnableDelayedExpansion
 set "startTime=%time: =0%"
 
 cls
-echo ---------------------------------------------------------------
-Echo * COMFYUI-ZLUDA INSTALL (for HIP 6.2.4 with MIOPEN and Triton)*
-echo ---------------------------------------------------------------
+
+echo %ESC%[96m╔══════════════════════════════════════════════════════════════════════════════╗%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[91m   ____                 __       _   _ ____   ___           _        _ _    %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[91m  / ___^|___  _ __ ___  / _^|_   _^| ^| ^| ^|_ _^|  ^|_ _^|_ __  ___^| ^|_ __ _^| ^| ^|   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[91m ^| ^|   / _ \^| '_ ` _ \^| ^|_^| ^| ^| ^| ^| ^| ^|^| ^|    ^| ^|^| '_ \/ __^| __/ _` ^| ^| ^|   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[91m ^| ^|__^| (_) ^| ^| ^| ^| ^| ^|  _^| ^|_^| ^| ^|_^| ^|^| ^|    ^| ^|^| ^| ^| \__ \ ^|^| (_^| ^| ^| ^|   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[91m  \____\___/^|_^| ^|_^| ^|_^|_^|  \__, ^|\___/^|___^|  ^|___^|_^| ^|_^|___/\__\__,_^|_^|_^|   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[91m                           ^|___/                                            %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m                                                                              %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[93m                    ╔══════════════════════════════════╗                    %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[93m                    ║%ESC%[0m %ESC%[95m     ZLUDA for AMD GPUs         %ESC%[0m %ESC%[93m║                    %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[93m                    ╚══════════════════════════════════╝                    %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m                                                                              %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[92m  ◆ PyTorch 2.8 (CUDA-compatible layer)                                     %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[92m  ◆ Triton 3.4 (High-performance GPU computing)                             %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[92m  ◆ Flash Attention 2 (Memory-efficient attention for Triton)               %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[92m  ◆ Sage Attention 1 (Advanced attention mechanisms)                        %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[92m  ◆ HIP SDK 6.5 (ROCm development toolkit)                                  %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[92m  ◆ MIOpen (AMD's machine learning primitives library)                      %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m                                                                              %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[94m  ┌─────────────────────────────────────────────────────────────────────┐   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[94m  │%ESC%[0m %ESC%[97m  Bringing CUDA compatibility to AMD Radeon Graphics Cards         %ESC%[0m %ESC%[94m│   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[94m  │%ESC%[0m %ESC%[97m        Powered by ZLUDA translation layer technology              %ESC%[0m %ESC%[94m│   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m║%ESC%[0m %ESC%[94m  └─────────────────────────────────────────────────────────────────────┘   %ESC%[0m %ESC%[96m║%ESC%[0m
+echo %ESC%[96m╚══════════════════════════════════════════════════════════════════════════════╝%ESC%[0m
 echo.
+pause
 echo  ::  %time:~0,8%  ::  - Setting up the virtual enviroment
 Set "VIRTUAL_ENV=venv"
 If Not Exist "%VIRTUAL_ENV%\Scripts\activate.bat" (
@@ -21,21 +48,21 @@ If Not Exist "%VIRTUAL_ENV%\Scripts\activate.bat" Exit /B 1
 
 echo  ::  %time:~0,8%  ::  - Virtual enviroment activation
 Call "%VIRTUAL_ENV%\Scripts\activate.bat"
-echo  ::  %time:~0,8%  ::  - Updating the pip package 
+echo  ::  %time:~0,8%  ::  - Updating the pip package
 python.exe -m pip install --upgrade pip --quiet
 echo.
 echo  ::  %time:~0,8%  ::  Beginning installation ...
 echo.
-echo  ::  %time:~0,8%  ::  - Installing required packages
-pip install -r requirements.txt --quiet
 echo  ::  %time:~0,8%  ::  - Installing torch for AMD GPUs (First file is 2.7 GB, please be patient)
-pip uninstall torch torchvision torchaudio -y --quiet
-pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu118 --quiet
+:: install pytorch 2.8 for cuda11.8
+pip install --force-reinstall --pre torch torchvision torchaudio numpy==1.*
+echo  ::  %time:~0,8%  ::  - Installing required packages
+:: because we have already installed torch, pip should consider it already installed
+pip install -r requirements.txt --quiet
 echo  ::  %time:~0,8%  ::  - Installing onnxruntime (required by some nodes)
 pip install onnxruntime --quiet
 echo  ::  %time:~0,8%  ::  - (temporary numpy fix)
-pip uninstall numpy -y --quiet
-pip install numpy==1.26.4 --quiet
+pip install --force-reinstall numpy==1.*
 
 echo  ::  %time:~0,8%  ::  - Detecting Python version and installing appropriate triton package
 
@@ -63,7 +90,6 @@ if "%PY_MINOR%"=="12" (
 :: patching triton & torch (from sfinktah ; https://github.com/sfinktah/amd-torch )
 pip install --force-reinstall pypatch-url --quiet
 pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.patch -p 4 triton
-pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/torch-2.7.0+cu118-cp311-cp311-win_amd64.patch -p 4 torch
 
 echo  ::  %time:~0,8%  ::  - Installing flash-attention
 
@@ -75,10 +101,9 @@ del flash_attn-2.7.4.post1-py3-none-any.whl
 copy comfy\customzluda\fa\distributed.py %VIRTUAL_ENV%\Lib\site-packages\flash_attn\utils\distributed.py /y >NUL
 
 echo  ::  %time:~0,8%  ::  - Installing and patching sage-attention
-pip install sageattention --quiet
-copy comfy\customzluda\sa\quant_per_block.py %VIRTUAL_ENV%\Lib\site-packages\sageattention\quant_per_block.py /y >NUL
-copy comfy\customzluda\sa\attn_qk_int8_per_block_causal.py %VIRTUAL_ENV%\Lib\site-packages\sageattention\attn_qk_int8_per_block_causal.py /y >NUL
-copy comfy\customzluda\sa\attn_qk_int8_per_block.py %VIRTUAL_ENV%\Lib\site-packages\sageattention\attn_qk_int8_per_block.py /y >NUL
+pip install --force-reinstall pypatch-url sageattention braceexpand --quiet
+echo  ::  %time:~0,8%  ::  - Patching sage-attention
+pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/sageattention-1.0.6+sfinktah+env-py3-none-any.patch -p 4 sageattention
 
 echo.
 echo  ::  %time:~0,8%  ::  Custom node(s) installation ...
@@ -102,7 +127,7 @@ if %ERRLEVEL% neq 0 (
     exit /b %ERRLEVEL%
 )
 
-echo. 
+echo.
 echo  ::  %time:~0,8%  ::  - Patching ZLUDA
 :: Download ZLUDA version 3.9.5 nightly
 rmdir /S /Q zluda 2>nul
@@ -123,7 +148,7 @@ copy zluda\cufftw.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\cufftw64_10.dll 
 copy comfy\customzluda\zluda.py comfy\zluda.py /y >NUL
 
 echo  ::  %time:~0,8%  ::  - ZLUDA 3.9.5 nightly patched for HIP SDK 6.2.4 with miopen and triton-flash attention.
-echo. 
+echo.
 set "endTime=%time: =0%"
 set "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"
 set /A "elap=((((10!end:%time:~2,1%=%%100)*60+1!%%100)-((((10!start:%time:~2,1%=%%100)*60+1!%%100), elap-=(elap>>31)*24*60*60*100"
@@ -140,7 +165,7 @@ echo.
 set FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
 set MIOPEN_FIND_MODE=2
 set MIOPEN_LOG_LEVEL=3
-.\zluda\zluda.exe -- python main.py --auto-launch --use-quad-cross-attention
+.\zluda\zluda.exe -- python main.py --auto-launch --use-sage-attention
 
 
 
