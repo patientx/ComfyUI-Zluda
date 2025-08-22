@@ -95,7 +95,8 @@ ZLUDA, MIOpen, and Triton will rebuild everything from scratch, making future op
 
 * Also there is the system path defining variable called: "Path". Double-click it and click "New" add this: `C:\Program Files\AMD\ROCm\5.7\bin`
 
-* Get library files for your GPU from Brknsoul Repository (for HIP 5.7.1) https://github.com/brknsoul/ROCmLibs
+* Get library files for your GPU from Brknsoul Repository (for HIP 5.7.1) `https://github.com/brknsoul/ROCmLibs`
+* (try these for many of the old gpu's as an alternative source of libraries `https://www.mediafire.com/file/boobrm5vjg7ev50/rocBLAS-HIP5.7.1-win%2528old_gpu%2529.rar/file`)
 
 * Go to folder `C:\Program Files\AMD\ROCm\5.7\bin\rocblas`, there would be a "library" folder, backup the files inside to somewhere else.
 
@@ -133,9 +134,10 @@ install-for-older-amd.bat
 <details>
 <summary><strong>For GPU's below 6800 VEGA, RX 5000 and remaining 6000's (6700, 6600 etc)</strong></summary>
 
-* There is the legacy installer method still available with `install-legacy.bat` (this is the old "install.bat") which doesn't include miopen-triton stuff, but I strongly recommend them now we have solved most of the problems with them. 
-
 * **IMPORTANT**: With this install method you MUST make sure you have the latest GPU drivers (specifically you need drivers above 25.5.1)
+
+* [There is the legacy installer method still available with `install-legacy.bat` (this is the old "install.bat") which doesn't include miopen-triton stuff, but I strongly recommend them now we have solved most of the problems with them.]
+* [So if you want you can still install hip 5.7.1 and use the libraries for your gpu for hip 5.7.1 or 6.2.4 and you don't need to install miopen stuff. ]
 
 * Install HIP SDK 6.2.4 from [AMD ROCm Hub](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html) - "Windows 10 & 11 6.2.4 HIP SDK"
 
@@ -230,12 +232,11 @@ install-n.bat
 > 📢 ***REGARDING KEEPING THE APP UP TO DATE***
 >
 > Avoid using the update function from the manager, instead use `git pull`, which we
-> are doing on every start if `start.bat` is used. (App Already Does It Every Time You Open It, If You Are Using
-> `comfyui.bat`, So This Way It Is Always Up To Date With Whatever Is On My GitHub Page)
+> are doing on every start if `comfyui.bat` or `comfyui-n.bat`is used. 
 >
 > Only use comfy manager to update the extensions
 > (Manager -> Custom Nodes Manager -> Set Filter To Installed -> Click Check Update On The Bottom Of The Window)
-> otherwise it breaks the basic installation, and in that case run `install.bat` once again.
+> otherwise it breaks the basic installation, and in that case run the install once again.
 
 ## Troubleshooting
 
@@ -259,4 +260,9 @@ install-n.bat
 ## Credits
 
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
-- [Zluda Wiki from SdNext](https://github.com/vladmandic/automatic/wiki/ZLUDA)
+- [Zluda Wiki from SdNext](https://github.com/vladmandic/sdnext/wiki/ZLUDA)
+- [Brknsoul for Rocm Libraries](https://github.com/brknsoul/ROCmLibs)
+- [likelovewant for Rocm Libraries](https://github.com/likelovewant/ROCmLibs-for-gfx1103-AMD780M-APU/releases/tag/v0.6.2.4)
+- [Lshqqytiger](https://github.com/lshqqytiger/ZLUDA)
+- [LeagueRaINi](https://github.com/LeagueRaINi/ComfyUI)
+- [ComfyUI-Manager](https://github.com/ltdrdata/ComfyUI-Manager)
