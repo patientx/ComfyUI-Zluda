@@ -1,0 +1,255 @@
+ComfyUI-Zluda Installer — Pseudo-code (grouped by related packages and subsystems)
+NOTE: This document has been reorganized and rewritten for clarity. Please prefer reading INSTALL_PSEUDOCODE_REWRITTEN.txt.
+
+A. Console and global GPU/SDK configuration
+- Set console to UTF-8 and set window title.
+- Define HIP SDK location (e.g., HIP_SDK_DIR = "C:\Program Files\AMD\ROCm\6.5").
+- Enable ZLUDA COMGR logging (ZLUDA_COMGR_LOG_LEVEL = 1).
+- Record start timestamp for elapsed-time reporting.
+Addendum: Original commands
+- @echo off
+- chcp 65001 >nul
+- title ComfyUI-Zluda Installer
+- set HIP_SDK_DIR=C:\Program Files\AMD\ROCm\6.5
+- set ZLUDA_COMGR_LOG_LEVEL=1
+- set ESC=
+- setlocal EnableDelayedExpansion
+- set "startTime=%time: =0%"
+- cls
+- pause
+
+B. Python virtual environment setup
+- Define VIRTUAL_ENV = "venv".
+- If venv activation script does not exist:
+  - Create venv with "python -m venv venv".
+- If activation script still missing, exit with error.
+- Activate the virtual environment.
+- Upgrade pip to the latest version.
+- Package: pip
+Addendum: Original commands
+- Set "VIRTUAL_ENV=venv"
+- If Not Exist "%VIRTUAL_ENV%\Scripts\activate.bat" (
+    python.exe -m venv %VIRTUAL_ENV%
+  )
+- If Not Exist "%VIRTUAL_ENV%\Scripts\activate.bat" Exit /B 1
+- Call "%VIRTUAL_ENV%\Scripts\activate.bat"
+- python.exe -m pip install --upgrade pip --quiet
+
+C. PyTorch stack installation (torch/torchvision/torchaudio + core deps)
+- Two alternatives are provided (choose one), then:
+  - Always perform C.3 (Torch DLL patching) after installing either alternative.
+  - Perform C.4 (Torch code patch) only if you installed Torch 2.7.x in C.2.
+
+  C.1 Nightly torch (pre-release) for CUDA 11.8
+  - URL: https://download.pytorch.org/whl/nightly/cu118
+  - Command: pip install --force-reinstall --pre torch --index-url https://download.pytorch.org/whl/nightly/cu118
+  - Command: pip install --force-reinstall --pre torchaudio torchvision --index-url https://download.pytorch.org/whl/nightly/cu118 --no-deps
+  - Command: pip install numpy==1.* pillow torch
+  - Package: torch
+  - Package: torchaudio
+  - Package: torchvision
+  - Package: numpy==1.*
+  - Package: pillow
+
+  C.2 Stable pinned Torch 2.7.x for CUDA 11.8
+  - URL: https://download.pytorch.org/whl/cu118
+  - Command: pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu118 --quiet
+  - Package: torch==2.7.0
+  - Package: torchvision==0.22.0
+  - Package: torchaudio==2.7.0
+
+  C.3 Torch DLL patching with ZLUDA shims
+  - Applies to both C.1 (Nightly) and C.2 (Stable 2.7.x).
+  - Replace Torch’s CUDA DLLs with ZLUDA-provided shims to match Torch’s expected library names.
+  - Map: cublas -> cublas64_11.dll, cusparse -> cusparse64_11.dll, cudnn -> cudnn64_9.dll, cufft -> cufft64_10.dll, cufftw -> cufftw64_10.dll.
+  - Adjust NVRTC DLLs: duplicate existing nvrtc64_112_0.dll to nvrtc_cuda.dll, then overwrite nvrtc64_112_0.dll with ZLUDA nvrtc.dll.
+  - Note: ZLUDA files are sourced from the local 'zluda' folder downloaded in Step K.
+
+  C.4 Torch code patch (only when using Torch 2.7.x)
+  - Applies only if you installed Torch 2.7.x in C.2.
+  - Apply Torch 2.7.0 patch to improve compatibility.
+  - URL: https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/torch-2.7.0+cu118-cp311-cp311-win_amd64.patch
+  - Command: pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/torch-2.7.0+cu118-cp311-cp311-win_amd64.patch -p 4 torch
+
+- Note: The sequence ensures torch presence; dependency resolver warnings are expected for the nightly step.
+Addendum: Original commands
+- pip install --force-reinstall --pre torch --index-url https://download.pytorch.org/whl/nightly/cu118
+- pip install --force-reinstall --pre torchaudio torchvision --index-url https://download.pytorch.org/whl/nightly/cu118 --no-deps
+- pip install numpy==1.* pillow torch
+- pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu118 --quiet
+- copy zluda\cublas.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\cublas64_11.dll /y >NUL
+- copy zluda\cusparse.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\cusparse64_11.dll /y >NUL
+- copy %VIRTUAL_ENV%\Lib\site-packages\torch\lib\nvrtc64_112_0.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\nvrtc_cuda.dll /y >NUL
+- copy zluda\nvrtc.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\nvrtc64_112_0.dll /y >NUL
+- copy zluda\cudnn.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\cudnn64_9.dll /y >NUL
+- copy zluda\cufft.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\cufft64_10.dll /y >NUL
+- copy zluda\cufftw.dll %VIRTUAL_ENV%\Lib\site-packages\torch\lib\cufftw64_10.dll /y >NUL
+- pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/torch-2.7.0+cu118-cp311-cp311-win_amd64.patch -p 4 torch
+
+D. General Python dependencies
+- Install project requirements from requirements.txt.
+- Install onnxruntime (needed by some nodes).
+- Apply temporary numpy fix by force-reinstalling numpy==1.*.
+- Package: onnxruntime
+- Package: numpy==1.*
+Addendum: Original commands
+- pip install -r requirements.txt --quiet
+- pip install onnxruntime --quiet
+- pip install --force-reinstall numpy==1.*
+
+E. Triton installation (version selected by Python minor version)
+- Detect Python minor version (PY_MINOR).
+- Two alternatives are provided (choose the one matching your Python):
+
+  E.1 Python 3.12 (cp312 wheel)
+  - URL: https://github.com/lshqqytiger/triton/releases/download/a9c80202/triton-3.4.0+gita9c80202-cp312-cp312-win_amd64.whl
+  - Command: pip install --force-reinstall https://github.com/lshqqytiger/triton/releases/download/a9c80202/triton-3.4.0+gita9c80202-cp312-cp312-win_amd64.whl
+  - Package: triton
+
+  E.2 Python 3.11 (cp311 wheel)
+  - URL: https://github.com/lshqqytiger/triton/releases/download/a9c80202/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.whl
+  - Command: pip install --force-reinstall https://github.com/lshqqytiger/triton/releases/download/a9c80202/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.whl
+  - Package: triton
+
+  E.3 Triton patch (post-install)
+  - URL: https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.patch
+  - Command: pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.patch -p 4 triton
+
+- Else:
+  - Warn about unsupported Python minor version and print full version string.
+- Note: Uses --force-reinstall for explicit wheel installs.
+Addendum: Original commands
+- for /f "tokens=2 delims=." %%a in ('python -c "import sys; print(sys.version)"') do (
+    set "PY_MINOR=%%a"
+    goto :version_detected
+  )
+- :version_detected
+- if "%PY_MINOR%"=="12" (
+    pip install --force-reinstall https://github.com/lshqqytiger/triton/releases/download/a9c80202/triton-3.4.0+gita9c80202-cp312-cp312-win_amd64.whl
+  ) else if "%PY_MINOR%"=="11" (
+    pip install --force-reinstall https://github.com/lshqqytiger/triton/releases/download/a9c80202/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.whl
+  ) else (
+    echo  ::  - WARNING: Unsupported Python version 3.%PY_MINOR%, skipping triton installation
+    echo  ::  - Full version string:
+    python -c "import sys; print(sys.version)"
+  )
+- pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.patch -p 4 triton
+
+F. Patching and performance libraries
+- Install pypatch-url tool to apply patches.
+  - Command: pip install --force-reinstall pypatch-url --quiet
+  - Package: pypatch-url
+  - Note: Uses --force-reinstall.
+Addendum: Original commands
+- pip install --force-reinstall pypatch-url --quiet
+
+G. Flash Attention 2 setup
+- Obtain and install a wheel extracted from a downloaded archive:
+  1) Download the ZIP archive containing the wheel.
+     - URL: https://github.com/user-attachments/files/20140536/flash_attn-2.7.4.post1-py3-none-any.zip
+  2) Extract the ZIP to produce flash_attn-2.7.4.post1-py3-none-any.whl.
+  3) Install the extracted wheel.
+     - Command: pip install flash_attn-2.7.4.post1-py3-none-any.whl --quiet
+  4) Clean up by removing the downloaded ZIP and the extracted wheel.
+- Replace flash_attn’s distributed.py inside site-packages with a project-provided compatibility file:
+  - Source file: comfy\customzluda\fa\distributed.py
+  - Target path: %VIRTUAL_ENV%\Lib\site-packages\flash_attn\utils\distributed.py
+  - Command: copy comfy\customzluda\fa\distributed.py %VIRTUAL_ENV%\Lib\site-packages\flash_attn\utils\distributed.py /y
+- Package: flash_attn-2.7.4.post1-py3-none-any.whl
+- Package: flash_attn
+Addendum: Original commands
+- %SystemRoot%\system32\curl.exe -sL --ssl-no-revoke https://github.com/user-attachments/files/20140536/flash_attn-2.7.4.post1-py3-none-any.zip > fa.zip
+- %SystemRoot%\system32\tar.exe -xf fa.zip
+- pip install flash_attn-2.7.4.post1-py3-none-any.whl --quiet
+- del fa.zip
+- del flash_attn-2.7.4.post1-py3-none-any.whl
+- copy comfy\customzluda\fa\distributed.py %VIRTUAL_ENV%\Lib\site-packages\flash_attn\utils\distributed.py /y >NUL
+
+H. Sage Attention setup
+- Install sageattention and braceexpand (and ensure pypatch-url present).
+- Apply patch to sageattention for environment compatibility.
+- Package: pypatch-url
+- Package: sageattention
+- Package: braceexpand
+- URL: https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/sageattention-1.0.6+sfinktah+env-py3-none-any.patch
+Addendum: Original commands
+- pip install --force-reinstall pypatch-url sageattention braceexpand --quiet
+- pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/sageattention-1.0.6+sfinktah+env-py3-none-any.patch -p 4 sageattention
+
+I. Custom nodes for ComfyUI
+- Copy CFZ helper scripts into custom_nodes (patcher, cudnn toggle, VAE loader).
+- In custom_nodes folder:
+  - Clone ComfyUI-Manager.
+  - Clone ComfyUI-deepcache.
+- Return to repository root.
+- URL: https://github.com/ltdrdata/ComfyUI-Manager.git
+- URL: https://github.com/styler00dollar/ComfyUI-deepcache.git
+Addendum: Original commands
+- copy cfz\cfz_patcher.py custom_nodes\cfz_patcher.py /y >NUL
+- copy cfz\cfz_cudnn.toggle.py custom_nodes\cfz_cudnn.toggle.py /y >NUL
+- copy cfz\cfz_vae_loader.py custom_nodes\cfz_vae_loader.py /y >NUL
+- cd custom_nodes
+- git clone https://github.com/ltdrdata/ComfyUI-Manager.git --quiet
+- git clone https://github.com/styler00dollar/ComfyUI-deepcache.git --quiet
+- cd ..
+
+J. CPython runtime libs placement (for extension loading compatibility)
+- Copy CPython "libs" directory for detected Python minor version into "venv\libs".
+- If the copy fails, exit with error.
+Addendum: Original commands
+- xcopy /E /I /Y "%LocalAppData%\Programs\Python\Python3%PY_MINOR%\libs" "venv\libs"
+- set ERRLEVEL=%errorlevel%
+- if %ERRLEVEL% neq 0 (
+    echo "Failed to copy Python3%PY_MINOR%\libs to virtual environment."
+    exit /b %ERRLEVEL%
+  )
+
+K. ZLUDA setup
+- Remove existing "zluda" folder if present; create a new one.
+- Download ZLUDA nightly ROCm6 Windows build and extract into "zluda".
+- Copy customized zluda.py into project (used to integrate ZLUDA behavior).
+- URL: https://github.com/lshqqytiger/ZLUDA/releases/download/rel.5e717459179dc272b7d7d23391f0fad66c7459cf/ZLUDA-nightly-windows-rocm6-amd64.zip
+Addendum: Original commands
+- rmdir /S /Q zluda 2>nul
+- mkdir zluda
+- cd zluda
+- %SystemRoot%\system32\curl.exe -sL --ssl-no-revoke https://github.com/lshqqytiger/ZLUDA/releases/download/rel.5e717459179dc272b7d7d23391f0fad66c7459cf/ZLUDA-nightly-windows-rocm6-amd64.zip > zluda.zip
+- %SystemRoot%\system32\tar.exe -xf zluda.zip
+- del zluda.zip
+- cd ..
+- copy comfy\customzluda\zluda.py comfy\zluda.py /y >NUL
+
+L. Elapsed time reporting and guidance
+- Compute and display the total installation time.
+- Provide usage notes:
+  - Start later via comfyui-n.bat.
+  - Consider copying comfyui-n.bat to customize flags without affecting updates.
+  - Supported attention flags: --use-pytorch-cross-attention, --use-quad-cross-attention, --use-flash-attention, --use-sage-attention.
+Addendum: Original commands
+- set "endTime=%time: =0%"
+- set "end=!endTime:%time:~8,1%=%%100)*100+1!"  &  set "start=!startTime:%time:~8,1%=%%100)*100+1!"
+- set /A "elap=((((10!end:%time:~2,1%=%%100)*60+1!%%100)-((((10!start:%time:~2,1%=%%100)*60+1!%%100), elap-=(elap>>31)*24*60*60*100"
+- set /A "cc=elap%%100+100,elap/=100,ss=elap%%60+100,elap/=60,mm=elap%%60+100,hh=elap/60+100"
+- echo .....................................................
+- echo *** Installation is completed in %hh:~1%%time:~2,1%%mm:~1%%time:~2,1%%ss:~1%%time:~8,1%%cc:~1% .
+- echo *** You can use "comfyui-n.bat" to start the app later.
+- echo *** It is advised to make a copy of "comfyui-n.bat" and modify it to your liking so when updating later it won't cause problems.
+- echo *** You can use -- "--use-pytorch-cross-attention" , "--use-quad-cross-attention" , "--use-flash-attention" or "--use-sage-attention"
+- echo .....................................................
+- echo.
+
+M. Launch configuration and first run
+- Set GPU-related environment variables prior to launch:
+  - FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
+  - MIOPEN_FIND_MODE=2
+  - MIOPEN_LOG_LEVEL=3
+- Launch ComfyUI via ZLUDA layer:
+  - Execute zluda.exe to run: python main.py --auto-launch --use-sage-attention
+- Inform the user that the first start may take some time.
+Addendum: Original commands
+- echo *** Starting the Comfyui-ZLUDA for the first time, please be patient...
+- echo.
+- set FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
+- set MIOPEN_FIND_MODE=2
+- set MIOPEN_LOG_LEVEL=3
+- .\zluda\zluda.exe -- python main.py --auto-launch --use-sage-attention
