@@ -220,13 +220,13 @@ install-n.bat
 
 * FOR THE UNSUPPORTED GPU'S THAT HAS LIBRARIES ; DO THESE :
 
-* Get library files for your GPU from [6.4.2 Libraries for unsupported GPU's](https://github.com/likelovewant/ROCmLibs-for-gfx1103-AMD780M-APU/releases/tag/v0.6.4.2) (for HIP 6.4.2)
+  * Get library files for your GPU from [6.4.2 Libraries for unsupported GPU's](https://github.com/likelovewant/ROCmLibs-for-gfx1103-AMD780M-APU/releases/tag/v0.6.4.2) (for HIP 6.4.2)
 
-* Go to folder `C:\Program Files\AMD\ROCm\6.4\bin\rocblas`, there should be a "library" folder. **Backup the files inside to somewhere else.**
+  * Go to folder `C:\Program Files\AMD\ROCm\6.4\bin\rocblas`, there should be a "library" folder. **Backup the files inside to somewhere else.**
 
-* Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary): `C:\Program Files\AMD\ROCm\6.4\bin\rocblas\library`
+  * Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary): `C:\Program Files\AMD\ROCm\6.4\bin\rocblas\library`
 
-* If there's a `rocblas.dll` file in the archive, copy it inside `C:\Program Files\AMD\ROCm\6.4\bin`
+  * If there's a `rocblas.dll` file in the archive, copy it inside `C:\Program Files\AMD\ROCm\6.4\bin`
 
 * Install [Visual Studio Build Tools](https://aka.ms/vs/17/release/vs_BuildTools.exe)
 
