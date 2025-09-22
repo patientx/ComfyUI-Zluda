@@ -65,7 +65,7 @@ pip install --force-reinstall pypatch-url --quiet
 pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/triton-3.4.0+gita9c80202-cp311-cp311-win_amd64.patch -p 4 triton
 pypatch-url apply https://raw.githubusercontent.com/sfinktah/amd-torch/refs/heads/main/patches/torch-2.7.0+cu118-cp311-cp311-win_amd64.patch -p 4 torch
 
-echo  ::  %time:~0,8%  ::  - Installing flash-attention
+echo  ::  %time:~0,8%  ::  - Installing and patching flash-attention
 
 %SystemRoot%\system32\curl.exe -sL --ssl-no-revoke https://github.com/user-attachments/files/20140536/flash_attn-2.7.4.post1-py3-none-any.zip > fa.zip
 %SystemRoot%\system32\tar.exe -xf fa.zip
@@ -73,6 +73,33 @@ pip install flash_attn-2.7.4.post1-py3-none-any.whl --quiet
 del fa.zip
 del flash_attn-2.7.4.post1-py3-none-any.whl
 copy comfy\customzluda\fa\distributed.py %VIRTUAL_ENV%\Lib\site-packages\flash_attn\utils\distributed.py /y >NUL
+set "file=%VIRTUAL_ENV%\Lib\site-packages\flash_attn\flash_attn_triton_amd\utils.py"
+:: Backup utils.py
+copy "%file%" "%file%.bak" /y >NUL
+:: Replace multiline return via PowerShell
+powershell -Command ^
+  "$lines = Get-Content '%file%';" ^
+  "$output = @();" ^
+  "$in_rdna = $false;" ^
+  "$skipping_return = $false;" ^
+  "for ($i = 0; $i -lt $lines.Count; $i++) {" ^
+  "    $line = $lines[$i];" ^
+  "    if ($line -match '^\s*def is_rdna\(\):') {" ^
+  "        $in_rdna = $true;" ^
+  "        $output += $line;" ^
+  "        continue;" ^
+  "    }" ^
+  "    if ($in_rdna -and -not $skipping_return -and $line -match '^\s*return ') {" ^
+  "        $skipping_return = $true;" ^
+  "        $output += '    return is_hip() and triton.runtime.driver.active.get_current_target().arch.startswith(\"gfx1\")';" ^
+  "        continue;" ^
+  "    }" ^
+  "    if ($skipping_return) {" ^
+  "        if ($line -match '\)') { $skipping_return = $false; $in_rdna = $false }; continue;" ^
+  "    }" ^
+  "    $output += $line;" ^
+  "}" ^
+  "$output | Set-Content '%file%'"
 
 echo  ::  %time:~0,8%  ::  - Installing and patching sage-attention
 pip install sageattention --quiet
@@ -152,4 +179,5 @@ set FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
 set MIOPEN_FIND_MODE=2
 set MIOPEN_LOG_LEVEL=3
 .\zluda\zluda.exe -- python main.py --auto-launch --use-quad-cross-attention
+
 
