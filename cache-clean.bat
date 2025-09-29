@@ -43,10 +43,15 @@ if defined COMFYUI_DIR (
 )
 
 echo.
-pause
+echo.
+echo Press Y to continue or any other key to cancel...
+for /f %%k in ('powershell -nologo -command "[console]::ReadKey($true).KeyChar"') do set "key=%%k"
+if /i not "%key%"=="Y" exit /b
 
 echo.
+echo ============================================
 echo Starting cleanup...
+echo ============================================
 echo.
 
 REM ZLUDA ComputeCache
@@ -154,5 +159,4 @@ echo - Close any running applications that might be using these directories
 echo - Run this script as Administrator
 echo - Manually delete the directories that couldn't be removed
 echo.
-
 pause
