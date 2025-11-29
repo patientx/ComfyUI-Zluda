@@ -43,10 +43,15 @@ if defined COMFYUI_DIR (
 )
 
 echo.
-pause
+echo.
+echo Press 1 to continue or 2 to cancel...
+choice /c 12 /n /m "Enter your choice:"
+if errorlevel 2 exit /b
 
 echo.
+echo ============================================
 echo Starting cleanup...
+echo ============================================
 echo.
 
 REM ZLUDA ComputeCache
@@ -154,5 +159,10 @@ echo - Close any running applications that might be using these directories
 echo - Run this script as Administrator
 echo - Manually delete the directories that couldn't be removed
 echo.
-
-pause
+:: Pause only if script was double-clicked (non-interactive mode)
+echo %cmdcmdline% | findstr /i "\/c" >nul
+if %errorlevel%==0 (
+    pause
+) else (
+    pause
+)
