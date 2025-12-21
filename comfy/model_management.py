@@ -26,6 +26,7 @@ import importlib
 import platform
 import weakref
 import gc
+import os
 import comfy.zluda
 
 class VRAMState(Enum):
