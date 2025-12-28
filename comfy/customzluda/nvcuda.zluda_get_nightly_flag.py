@@ -3,11 +3,18 @@ import os
 import sys
 
 def main():
-    dll_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'zluda', 'nvcuda.dll'))
+    zluda_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', '..', 'zluda')
+    )
+
+    dll_path = os.path.join(zluda_dir, 'nvcuda.dll')
 
     if not os.path.isfile(dll_path):
         print(f"ERROR: DLL not found: {dll_path}")
         sys.exit(1)
+
+    if hasattr(os, "add_dll_directory"):
+        os.add_dll_directory(zluda_dir)
 
     try:
         zluda_dll = ctypes.CDLL(dll_path)
