@@ -1170,6 +1170,7 @@ def pin_memory(tensor):
         TOTAL_PINNED_MEMORY += size
         return True
     else:
+        logging.warning("Pin error.")
         discard_cuda_async_error()
 
     return False
@@ -1200,6 +1201,7 @@ def unpin_memory(tensor):
             TOTAL_PINNED_MEMORY = 0
         return True
     else:
+        logging.warning("Unpin error.")
         discard_cuda_async_error()
 
     return False
