@@ -1,0 +1,48 @@
+# This file can be overridden by placing a copy in your ComfyUI directory.
+#
+# Add the unique identifier of each node type you want to convert to cudnn-wrapped.
+# Lines starting with a hash are comments.
+#
+# The identifier you want is the one used in NODE_CLASS_MAPPINGS
+# Lines can be either exact class keys or regex patterns:
+#   - Exact: just write the class key:   VAEDecode
+#   - Regex: start with 're:' or wrap with slashes '/.../':
+#       re:^VAE.*
+#       /^(?:VAE|K)Decode(?:Tiled)?$/
+#     Regex flags:
+#       - With slash syntax, append flags after the closing slash: /pattern/imxsauL
+#           e.g., /^(?:vae|k)decode(?:tiled)?$/i   # case-insensitive
+#       - With re: prefix, you can either use inline flags (?i) inside the pattern
+#         or supply a flags prefix as re:i:pattern (letters among i m s x a u L)
+#           e.g., re:i:^(?:vae|k)decode(?:tiled)?$
+#
+# Exclusions:
+#   - To exclude specific classes or patterns from being wrapped, prefix the line with '-'.
+#     The same exact/regex syntax applies:
+#       -VAEDecodeTiled
+#       -re:^WanVideo.*
+#       -/(video|vae).*(encode|decode)/i
+#   - Exclusions are applied after inclusions and take priority.
+#
+# Each non-empty, non-comment line will be attempted for in-place conversion on startup via /ovum/cudnn_wrap_init
+#
+# For instance:
+TextEncodeQwenImageEditPlus
+TextEncodeQwenImageEditPlusMamad8
+VAEDecode
+VAEDecodeTiled
+WanVideoClipVisionEncode
+WanVideoImageToVideoEncode
+WanVideoEncode
+WanVideoDecode
+Wan22StoryboardGGUF
+
+# This line should catch most VAE decoding nodes and probably some others:
+/vae.*(encode|decode)/i
+/image.*video.*encode/i
+/wanvideo.*decode/i
+
+# But exclude tiled decoders explicitly (example):
+# -KSampler
+-/batched/i
+-/^cudnn_wrapped_/
