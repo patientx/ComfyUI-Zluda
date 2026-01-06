@@ -21,9 +21,11 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 </details>
 
 <details>
-<summary><strong>What's New?</strong></summary>
+<summary><strong>What's New?</strong> [:: ovum-cudnn-wrapper added :: new wan 2.2 i2v workflow added ::] </summary>
 
 ### Recent Updates
+
+- Our friend sfinktah's impressive solution for automatically enabling-disabling cudnn on comfyui, the "ovum-cudnn-wrapper" node is now automatically installed when install-n is used. Be sure to go to the node's github page and give him a star. "https://github.com/sfinktah/ovum-cudnn-wrapper" . Also adding a new "wan 2.2 i2v workflow" based on kijai's excellent wan wrapper node pack into the cfz/workflows folder, try it and of course you can remove the image input and just use it as a t2v as well (with correct loras for that). Please read the nodes carefully, 
 
 - **Changed node storage folder and added CFZ-Condition-Caching node. This allows you to save-load conditionings -prompts basically- it helps on two fronts, if you are using same prompts over and over it skips the clip part AND more importantly it skips loading clip model all together, giving you more memory to load other stuff, main model being the most important. (It is based on this nodepack , https://github.com/alastor-666-1933/caching_to_not_waste)
 
@@ -310,3 +312,4 @@ That node can actually be used between conditioning or image loading etc so it's
 - [Lshqqytiger](https://github.com/lshqqytiger/ZLUDA)
 - [LeagueRaINi](https://github.com/LeagueRaINi/ComfyUI)
 - [ComfyUI-Manager](https://github.com/ltdrdata/ComfyUI-Manager)
+- [Sfinktah](https://github.com/sfinktah)
