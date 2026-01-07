@@ -251,6 +251,7 @@ packages_to_monitor = [
     "comfyui-embedded-docs",
     "pydantic",
     "pydantic-settings",
+    "comfy-kitchen",
 ]
 
 print("\n  ::  Checking package versions...")
@@ -446,6 +447,7 @@ else:
     print(f"  ::  CUDA device detected: {zluda_device_name or 'None'}")
     print("***--------------------------------------------------------***\n")
 # ------------------- End Zluda detection -------------------
+
 
 
 
