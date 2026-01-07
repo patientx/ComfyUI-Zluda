@@ -416,6 +416,7 @@ packages_to_monitor = [
     "comfyui-embedded-docs",
     "pydantic",
     "pydantic-settings",
+    "comfy-kitchen",
 ]
 
 print("\n  ::  Checking package versions...")
