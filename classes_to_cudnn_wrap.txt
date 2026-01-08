@@ -27,15 +27,15 @@
 # Each non-empty, non-comment line will be attempted for in-place conversion on startup via /ovum/cudnn_wrap_init
 #
 # For instance:
-TextEncodeQwenImageEditPlus
-TextEncodeQwenImageEditPlusMamad8
+# TextEncodeQwenImageEditPlus
+# TextEncodeQwenImageEditPlusMamad8
 VAEDecode
 VAEDecodeTiled
 WanVideoClipVisionEncode
 WanVideoImageToVideoEncode
 WanVideoEncode
 WanVideoDecode
-Wan22StoryboardGGUF
+# Wan22StoryboardGGUF
 
 # This line should catch most VAE decoding nodes and probably some others:
 /vae.*(encode|decode)/i
@@ -46,3 +46,4 @@ Wan22StoryboardGGUF
 # -KSampler
 -/batched/i
 -/^cudnn_wrapped_/
+
