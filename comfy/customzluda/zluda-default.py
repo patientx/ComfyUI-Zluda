@@ -251,7 +251,7 @@ packages_to_monitor = [
     "comfyui-embedded-docs",
     "pydantic",
     "pydantic-settings",
-    "comfy-kitchen",
+    # "comfy-kitchen", (it seems it is not compatible with the old torch 2.3 we have been using)
 ]
 
 print("\n  ::  Checking package versions...")
@@ -447,6 +447,7 @@ else:
     print(f"  ::  CUDA device detected: {zluda_device_name or 'None'}")
     print("***--------------------------------------------------------***\n")
 # ------------------- End Zluda detection -------------------
+
 
 
 
