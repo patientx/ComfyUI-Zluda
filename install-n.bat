@@ -85,6 +85,7 @@ echo  ::  %time:~0,8%  ::  Custom node(s) installation ...
 echo. 
 echo :: %time:~0,8%  ::  - Installing CFZ Nodes (description in readme on github) 
 xcopy /E /I /Y "cfz\nodes" "custom_nodes" >NUL
+git clone https://github.com/patientx/CFZ-SwitchMenu.git --quiet
 echo  ::  %time:~0,8%  ::  - Installing Comfyui Manager
 cd custom_nodes
 git clone https://github.com/ltdrdata/ComfyUI-Manager.git --quiet
@@ -154,6 +155,7 @@ set FLASH_ATTENTION_TRITON_AMD_ENABLE=TRUE
 set MIOPEN_FIND_MODE=2
 set MIOPEN_LOG_LEVEL=3
 .\zluda\zluda.exe -- python main.py --auto-launch --use-quad-cross-attention
+
 
 
 
