@@ -410,7 +410,7 @@ requirements_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 're
 required_packages = parse_requirements_file(requirements_path)
 
 packages_to_monitor = [
-    "comfyui-frontend-package",
+    #"comfyui-frontend-package",
     "comfyui-workflow-templates",
     "av",
     "comfyui-embedded-docs",
