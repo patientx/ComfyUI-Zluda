@@ -860,7 +860,8 @@ class LTXAV(LTXV):
 
     def __init__(self, unet_config):
         super().__init__(unet_config)
-        self.memory_usage_factor = 0.077  # TODO
+        # self.memory_usage_factor = 0.077  # TODO
+        self.memory_usage_factor = (unet_config.get("cross_attention_dim", 4096) / 2048) * 5.5 * 1.5 # uses more system ram and less VRAM but way more stable and no oom's 
 
     def get_model(self, state_dict, prefix="", device=None):
         out = model_base.LTXAV(self, device=device)
