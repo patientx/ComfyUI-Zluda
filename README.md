@@ -258,6 +258,8 @@ install-n.bat
 
 * If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints, copy them into `models/checkpoints` folder so you can use them with ComfyUI's default workflow.
 
+* Note for 7900XT users: If running comfyui-n or comfyui-user terminates in the middle of the triton kernel test, follow the instructions in this bug: https://github.com/patientx/ComfyUI-Zluda/issues/384#issuecomment-3619519443
+
 * The first generation will take longer than usual, ZLUDA is compiling for your GPU. It does this once for every new model type. This is necessary and unavoidable.
 
 * You can use `comfyui-n.bat` or put a shortcut of it on your desktop to run the app later. My recommendation is to make a copy of `comfyui-n.bat` with another name and modify that copy so when updating you won't get into trouble.
