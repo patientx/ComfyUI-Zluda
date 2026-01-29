@@ -25,31 +25,19 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 
 ### Recent Updates
 
-- Our friend sfinktah's impressive solution for automatically enabling-disabling cudnn on comfyui, the "ovum-cudnn-wrapper" node is now automatically installed when install-n is used. Be sure to go to the node's github page and give him a star. "https://github.com/sfinktah/ovum-cudnn-wrapper" . Also adding a new "wan 2.2 i2v workflow" based on kijai's excellent wan wrapper node pack into the cfz/workflows folder, try it and of course you can remove the image input and just use it as a t2v as well (with correct loras for that). Please read the nodes carefully, 
+- Our friend sfinktah's impressive solution for automatically enabling-disabling cudnn on comfyui, the "ovum-cudnn-wrapper" node is now automatically installed when install-n is used. Be sure to go to the node's github page and give him a star. "[https://github.com/sfinktah/ovum-cudnn-wrapper](https://github.com/sfinktah/ovum-cudnn-wrapper]" . Also adding a new "wan 2.2 i2v workflow" based on kijai's excellent wan wrapper node pack into the cfz/workflows folder, try it and of course you can remove the image input and just use it as a t2v as well (with correct loras for that). Please read the nodes carefully, 
 
-- **Changed node storage folder and added CFZ-Condition-Caching node. This allows you to save-load conditionings -prompts basically- it helps on two fronts, if you are using same prompts over and over it skips the clip part AND more importantly it skips loading clip model all together, giving you more memory to load other stuff, main model being the most important. (It is based on this nodepack , https://github.com/alastor-666-1933/caching_to_not_waste)
+- **Changed node storage folder and added CFZ-Condition-Caching node. This allows you to save-load conditionings -prompts basically- it helps on two fronts, if you are using same prompts over and over it skips the clip part AND more importantly it skips loading clip model all together, giving you more memory to load other stuff, main model being the most important. (It is based on this nodepack, [https://github.com/alastor-666-1933/caching_to_not_waste](https://github.com/alastor-666-1933/caching_to_not_waste))
 
 <img width="1292" height="979" alt="Screenshot 2025-09-02 182907" src="https://github.com/user-attachments/assets/e7ab712b-4adc-426a-932a-acd0e49a30e0" />
 
-* I also uploaded an example workflow on how to use the nodes in your workflows. It is not fully working , and it is there to an idea how to incorporate to your workflows.
+* I also uploaded an example workflow on how to use the nodes in your workflows. It is not fully working, and it is there to an idea how to incorporate to your workflows.
 
 - **Added "cfz-vae-loader" node** to CFZ folder - enables changing VAE precision on the fly without using `--fp16-vae` etc. on the starting command line. This is important because while "WAN" works faster with fp16, Flux produces black output if fp16 VAE is used. Start ComfyUI normally and add this node to your WAN workflow to change it only with that model type.
 
 - **Use update.bat** if comfyui.bat or comfyui-n.bat can't update (as when they are the files that need to be updated, so delete them, run update.bat). When you run your comfyui(-n).bat afterwards, it now copies correct ZLUDA and uses that.
 
 - **Updated included ZLUDA version** for the new install method to 3.9.5 nightly (latest version available). You MUST use latest AMD GPU drivers with this setup otherwise there would be problems later (drivers >= 25.5.1).
-
-### Cache Cleaning Instructions
-
-**WIPING CACHES FOR A CLEAN REINSTALL** (recommended for a painless ZLUDA experience):
-
-Delete everything in these three directories:
-1. `C:\Users\yourusername\AppData\Local\ZLUDA\ComputeCache`
-2. `C:\Users\yourusername\.miopen`
-3. `C:\Users\yourusername\.triton`
-You can now use the `cache-clean.bat` in the comfyui-zluda folder to clean all caches quickly.
-
-ZLUDA, MIOpen, and Triton will rebuild everything from scratch, making future operations less problematic.
 
 ### New Nodes
 
@@ -86,43 +74,43 @@ ZLUDA, MIOpen, and Triton will rebuild everything from scratch, making future op
 
 </details>
 
-## Dependencies
+## Pre-Requisites
 
-* Install GIT from `https://git-scm.com/download/win` During installation don't forget to check the box for "Use Git from the Windows Command line and also from 3rd-party-software" to add Git to your system's PATH.
-* Install python 3.11.9 or higher(max 3.12 is supported atm if you want to use triton) from python website `https://www.python.org/downloads/windows/` (not from Microsoft Store on Windows) Make sure you check the box for "Add Python to PATH when you are at the "Customize Python" screen.
-* Install visual c++ runtime library from `https://aka.ms/vs/17/release/vc_redist.x64.exe`
+* GIT, available from [https://git-scm.com/download/win](https://git-scm.com/download/win). During installation don't forget to check the box for "Use Git from the Windows Command line and also from 3rd-party-software" to add Git to your system's PATH.
+* Python 3.11.9 or higher (3.12 is a minimum for using Triton), available from [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (*The Microsoft Store version will not work.*). Make sure you check the box for "Add Python to PATH when you are at the "Customize Python" screen.
+* Visual C++ Runtime Library, available from [https://aka.ms/vs/17/release/vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+* Visual Studio Build Tools, available from "[https://aka.ms/vs/17/release/vs_BuildTools.exe](https://aka.ms/vs/17/release/vs_BuildTools.exe)" 
 
 ## Setup (Windows-Only)
+### Important Notes
+**DON'T INSTALL** into your user directory or inside Windows or Program Files directories. Don't install to a directory with Non-English characters. Best option is to install to the root directory of whichever drive you'd like.
 
 <details>
-<summary>For Old Ryzen APU's, RX400-500 Series GPU's</summary>
+<summary><strong>For Old Ryzen APU's, RX400-500 Series GPU's (HIP 5.7.1)</strong></summary>
 
-* Install HIP SDK 5.7.1 from "[https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html)", "Windows 10 & 11 5.7.1 HIP SDK"
+Note: You *might* need older drivers for sdk 5.7.1 and old ZLUDA to work so if you are getting errors with latest drivers please install an older version (below 25.5.1) 
 
-* You *might* need older drivers for sdk 5.7.1 and old zluda to work so if you are getting errors with latest drivers please install an older version (below 25.5.1) 
+1. Install HIP SDK 5.7.1 from "[https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html)", "Windows 10 & 11 5.7.1 HIP SDK"
+2. Make the following changes to your system environment variables (instructions [here](https://imatest.atlassian.net/wiki/spaces/KB/pages/12049809418/Editing+System+Environment+Variables)):
 
-* Install "[https://aka.ms/vs/17/release/vs_BuildTools.exe](https://aka.ms/vs/17/release/vs_BuildTools.exe)" 
+* Add entries for `HIP_PATH` and `HIP_PATH_57` to your System Variables (not user variables), both should have this value: `C:\Program Files\AMD\ROCm\5.7\`
 
+* Check the PATH system variable and ensure that `C:\Program Files\AMD\ROCm\5.7\bin` is in the list. If not, add it.
 * Make sure the system variables HIP_PATH and HIP_PATH_57 exist, both should have this value: `C:\Program Files\AMD\ROCm\5.7\`
 
-* Also there is the system path defining variable called: "Path". Double-click it and click "New" add this: `C:\Program Files\AMD\ROCm\5.7\bin`
+3. Get library files for your GPU from Brknsoul Repository (for HIP 5.7.1) [https://github.com/brknsoul/ROCmLibs](https://github.com/brknsoul/ROCmLibs) or [https://www.mediafire.com/file/boobrm5vjg7ev50/rocBLAS-HIP5.7.1-win%2528old_gpu%2529.rar/fil`](https://www.mediafire.com/file/boobrm5vjg7ev50/rocBLAS-HIP5.7.1-win%2528old_gpu%2529.rar/file)
 
-* Get library files for your GPU from Brknsoul Repository (for HIP 5.7.1) `https://github.com/brknsoul/ROCmLibs`
-* (try these for many of the old gpu's as an alternative source of libraries `https://www.mediafire.com/file/boobrm5vjg7ev50/rocBLAS-HIP5.7.1-win%2528old_gpu%2529.rar/file`)
-
-* Go to folder `C:\Program Files\AMD\ROCm\5.7\bin\rocblas`, there would be a "library" folder, backup the files inside to somewhere else.
+* Go to folder `C:\Program Files\AMD\ROCm\5.7\bin\rocblas`, look for a "library" folder, backup the files inside to somewhere else.
 
 * Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary): `C:\Program Files\AMD\ROCm\5.7\bin\rocblas\library`
 
 * There could be a rocblas.dll file in the archive as well, if it is present then copy it inside `C:\Program Files\AMD\ROCm\5.7\bin`
 
-* Restart your system.
+4. Restart your system.
 
-* Open a cmd prompt. Easiest way to do this is, in Windows Explorer go to the folder or drive you want to install this app to, in the address bar type "cmd" and press enter.
+5. Open a cmd prompt. Easiest way to do this is, in Windows Explorer go to the folder or drive you want to install this app to, in the address bar type "cmd" and press enter.
 
-* **DON'T INSTALL** into your user directory or inside Windows or Program Files directories. Best option just go to `C:\` or `D:\` if you have other drives and open cmd there.
-
-* Copy these commands one by one and press enter after each one:
+6. Copy these commands one by one and press enter after each one:
 
 ```bash
 git clone https://github.com/patientx/ComfyUI-Zluda
@@ -136,19 +124,15 @@ cd ComfyUI-Zluda
 install-for-older-amd.bat
 ```
 
-* If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints copy them into `models/checkpoints` folder so you can use them with ComfyUI's default workflow.
-
-* The first generation will take longer than usual, ZLUDA is compiling for your GPU, it does this once for every new model type. This is necessary and unavoidable.
-
 * You can use `comfyui.bat` or put a shortcut of it on your desktop, to run the app later. My recommendation is make a copy of `comfyui.bat` with another name maybe and modify that copy so when updating you won't get into trouble.
 </details>
 
 <details>
-<summary><strong>For GPU's below 6800 (VEGA, RX 5000 and remaining 6000's; 6700, 6600 etc)</strong></summary>
+<summary><strong>For AMD GPU VEGA through 6700</strong> (HIP 6.2.4)</summary>
 
 * **IMPORTANT**: With this install method you MUST make sure you have the latest GPU drivers (specifically you need drivers above 25.5.1)
 
-* **UPDATE** : The GPUs listed below should have HIP 6.4.2 drivers available (though they have not been tested, and some may not work with the newer triton-miopen stuff). If you are updating from 6.2.4 to 6.4.2, remember to **uninstall 6.2.4 and then delete X:\program files\ROCm"** otherwise there may be problems even after uninstalling.
+The GPUs listed below should have HIP 6.4.2 drivers available (though they have not been tested, and some may not work with the newer triton-miopen stuff). If you are updating from 6.2.4 to 6.4.2, remember to **uninstall 6.2.4 and then delete X:\program files\ROCm"** otherwise there may be problems even after uninstalling.
 
 | **Card Type**  | **Model Numbers** | **gfx code** |
 | ------------- | ------------- | ------------- |
@@ -165,13 +149,15 @@ install-for-older-amd.bat
 
 * [There is a legacy installer method still available with `install-legacy.bat` (this is the old "install.bat") which doesn't include miopen-triton stuff, but I strongly recommend a standard install, since we have solved most of the problems with these GPUs. If you want you can still install hip 5.7.1 and use the libraries for your gpu for hip 5.7.1 or 6.2.4 and you don't need to install miopen stuff. You can use the `install-legacy.bat` but first try the install-n.bat if you have problems than go back to the legacy one.]
 
-* Install HIP SDK 6.2.4 from [AMD ROCm Hub](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html) - "Windows 10 & 11 6.2.4 HIP SDK"
+1 Install HIP SDK 6.2.4 from [AMD ROCm Hub](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html) - "Windows 10 & 11 6.2.4 HIP SDK"
 
-* Make sure the system variables `HIP_PATH` and `HIP_PATH_62` exist, both should have this value: `C:\Program Files\AMD\ROCm\6.2\`
+2. Make the following changes to your system environment variables (instructions [here](https://imatest.atlassian.net/wiki/spaces/KB/pages/12049809418/Editing+System+Environment+Variables)):
 
-* Also check the system path defining variable called "Path". Double-click it and click "New", then add: `C:\Program Files\AMD\ROCm\6.2\bin`
+* Add entries for `HIP_PATH` and `HIP_PATH_62` to your System Variables (not user variables), both should have this value: `C:\Program Files\AMD\ROCm\6.2\`
 
-* Download this addon package from [Google Drive](https://drive.google.com/file/d/1Gvg3hxNEj2Vsd2nQgwadrUEY6dYXy0H9/view?usp=sharing) (or [alternative source](https://www.mediafire.com/file/ooawc9s34sazerr/HIP-SDK-extension(zluda395).zip/file))
+* Check the PATH system variable and ensure that `C:\Program Files\AMD\ROCm\6.2\bin` is in the list. If not, add it.
+
+3. Download this addon package from [Google Drive](https://drive.google.com/file/d/1Gvg3hxNEj2Vsd2nQgwadrUEY6dYXy0H9/view?usp=sharing) (or [alternative source](https://www.mediafire.com/file/ooawc9s34sazerr/HIP-SDK-extension(zluda395).zip/file))
 
 * Extract the addon package into `C:\Program Files\AMD\ROCm\6.2` overwriting files if asked
 
@@ -183,13 +169,9 @@ install-for-older-amd.bat
 
 * If there's a `rocblas.dll` file in the archive, copy it inside `C:\Program Files\AMD\ROCm\6.2\bin`
 
-* Install [Visual Studio Build Tools](https://aka.ms/vs/17/release/vs_BuildTools.exe)
+4. **Restart your system**
 
-* **Restart your system**
-
-* Open a command prompt. Easiest way: in Windows Explorer, go to the folder or drive where you want to install this app, in the address bar type "cmd" and press enter
-
-* **DON'T INSTALL** into your user directory or inside Windows or Program Files directories. Best option is to go to `C:\` or `D:\` (if you have other drives) and open cmd there.
+5. Open a command prompt. Easiest way: in Windows Explorer, go to the folder or drive where you want to install this app, in the address bar type "cmd" and press enter
 
 * Copy these commands one by one and press enter after each:
 
@@ -204,43 +186,24 @@ cd ComfyUI-Zluda
 ```bash
 install-n.bat
 ```
-
-* If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints, copy them into `models/checkpoints` folder so you can use them with ComfyUI's default workflow.
-
-* The first generation will take longer than usual, ZLUDA is compiling for your GPU. It does this once for every new model type. This is necessary and unavoidable.
-
-* You can use `comfyui-n.bat` or put a shortcut of it on your desktop to run the app later. My recommendation is to make a copy of `comfyui-n.bat` with another name and modify that copy so when updating you won't get into trouble.
-
 </details>
 
 <details>
-<summary><strong>For GPU's above 6800 (6800, 6800XT, other 6000s above & 7000s and 9000s)</strong></summary>
+<summary><strong>For AMD GPU 6800 and above (Including 7000 and 9000 series)</strong></summary>
+**IMPORTANT**
+-  With this install method you MUST make sure you have the latest GPU drivers (specifically above 25.5.1)
 
-* **IMPORTANT**: With this install method you MUST make sure you have the latest GPU drivers (specifically you need drivers above 25.5.1)
+1. Install HIP SDK 6.4.2 from [AMD ROCm Hub](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html) - "Windows 10 & 11 6.4.2 HIP SDK"
 
-* Install HIP SDK 6.4.2 from [AMD ROCm Hub](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html) - "Windows 10 & 11 6.4.2 HIP SDK"
+2. Make the following changes to your system environment variables (instructions [here](https://imatest.atlassian.net/wiki/spaces/KB/pages/12049809418/Editing+System+Environment+Variables)):
 
-* Make sure the system variables `HIP_PATH` and `HIP_PATH_64` exist, both should have this value: `C:\Program Files\AMD\ROCm\6.4\`
+* Add entries for `HIP_PATH` and `HIP_PATH_64` to your System Variables (not user variables), both should have this value: `C:\Program Files\AMD\ROCm\6.4\`
 
-* Also check the system path defining variable called "Path". Double-click it and click "New", then add: `C:\Program Files\AMD\ROCm\6.4\bin`
+* Check the PATH system variable and ensure that `C:\Program Files\AMD\ROCm\6.4\bin` is in the list. If not, add it.
 
-* FOR THE UNSUPPORTED GPU'S THAT HAS LIBRARIES ; DO THESE :
+3. **Restart your system**
 
-* Get library files for your GPU from [6.4.2 Libraries for unsupported GPU's](https://github.com/likelovewant/ROCmLibs-for-gfx1103-AMD780M-APU/releases/tag/v0.6.4.2) (for HIP 6.4.2)
-
-* Go to folder `C:\Program Files\AMD\ROCm\6.4\bin\rocblas`, there should be a "library" folder. **Backup the files inside to somewhere else.**
-
-* Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary): `C:\Program Files\AMD\ROCm\6.4\bin\rocblas\library`
-
-* If there's a `rocblas.dll` file in the archive, copy it inside `C:\Program Files\AMD\ROCm\6.4\bin`
-
-* Install [Visual Studio Build Tools](https://aka.ms/vs/17/release/vs_BuildTools.exe)
-
-* **Restart your system**
-
-* Open a command prompt. Easiest way: in Windows Explorer, go to the folder or drive where you want to install this app, in the address bar type "cmd" and press enter
-
-* **DON'T INSTALL** into your user directory or inside Windows or Program Files directories. Best option is to go to `C:\` or `D:\` (if you have other drives) and open cmd there.
+4. Open a command prompt. Easiest way: in Windows Explorer, go to the folder or drive where you want to install this app, in the address bar type "cmd" and press enter
 
 * Copy these commands one by one and press enter after each:
 
@@ -256,52 +219,65 @@ cd ComfyUI-Zluda
 install-n.bat
 ```
 
-* If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints, copy them into `models/checkpoints` folder so you can use them with ComfyUI's default workflow.
+IF YOUR GPU IS NOT LISTED AS SUPPORTED BY HIP 6.4.2:
 
-* Note for 7900XT users: If running comfyui-n or comfyui-user terminates in the middle of the triton kernel test, follow the instructions in this bug: https://github.com/patientx/ComfyUI-Zluda/issues/384#issuecomment-3619519443
-
-* The first generation will take longer than usual, ZLUDA is compiling for your GPU. It does this once for every new model type. This is necessary and unavoidable.
-
-* You can use `comfyui-n.bat` or put a shortcut of it on your desktop to run the app later. My recommendation is to make a copy of `comfyui-n.bat` with another name and modify that copy so when updating you won't get into trouble.
+* Get library files for your GPU from [6.4.2 Libraries for unsupported GPU's](https://github.com/likelovewant/ROCmLibs-for-gfx1103-AMD780M-APU/releases/tag/v0.6.4.2) (for HIP 6.4.2)
+* Go to folder `C:\Program Files\AMD\ROCm\6.4\bin\rocblas`, there should be a "library" folder. **Backup the files inside to somewhere else.**
+* Open your downloaded optimized library archive and put them inside the library folder (overwriting if necessary): `C:\Program Files\AMD\ROCm\6.4\bin\rocblas\library`
+* If there's a `rocblas.dll` file in the archive, copy it inside `C:\Program Files\AMD\ROCm\6.4\bin`
 
 </details>
 
-> [!IMPORTANT]
-> 📢 ***REGARDING KEEPING THE APP UP TO DATE***
->
-> Avoid using the update function from the manager, instead use `git pull`, which we
-> are doing on every start if `comfyui.bat` or `comfyui-n.bat`is used. 
->
+## First-Time Launch
+* If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints copy them into `models/checkpoints` folder so you can use them with ComfyUI's default workflows. You can use [ComfyUI's Extra Model Paths YAML file](https://docs.comfy.org/development/core-concepts/models) to specify custom folders.
+
+* The first generation will take longer than usual, ZLUDA is compiling for your GPU, it does this once for every new model type. This is necessary and unavoidable.
+* To run in the future, run `comfyui-n.bat` (unless you are on an Older GPU, in which case run `comfyui.bat`
+* You can add custom settings to `comfyui-user.bat` which will not get overwritten during software updates.
+
+## Updating ComfyUI
+> [UPDATING]
+> Everytime comfyui.bat is run, it automatically updates to the latest ZLUDA-compatible version.  Using ComfyUI's Software Update may break your installation. Always either depend on the launcher batch file or do a new `git pull`
 > Only use comfy manager to update the extensions
 > (Manager -> Custom Nodes Manager -> Set Filter To Installed -> Click Check Update On The Bottom Of The Window)
 > otherwise it breaks the basic installation, and in that case run the install once again.
 
 ## Troubleshooting
-
-- IF you are getting `module 'torch.compiler' has no attribute 'is_compiling'` error, add `--disable-async-offload` to the launcher batch file. (this is now added by default to both bat files, you can try without it and if that works for you, all is good.) (thanks https://github.com/nota-rudveld)
-
-- If you are getting `RuntimeError: GET was unable to find an engine to execute this computation` or `RuntimeError: FIND was unable to find an engine to execute this computation` in the vae decoding stage, please use CFZ CUDNN Toggle node between ksampler latent and vae decoding. And leave the enable_cudnn setting "False" , this persists until you close the comfyui from the commandline for the rest of that run. So you won't see this error again.
+### Incompatibilities
+- DO NOT use non-english characters as folder names to put comfyui-zluda under.
+- `xformers` isn't usable with zluda so any nodes / packages that require it doesn't work.
+- Make sure you do not have any residual NVidia graphics drivers instlled on your system.
+  
+### Common Error Messages
+- `module 'torch.compiler' has no attribute 'is_compiling'` error, add `--disable-async-offload` to the launcher batch file. (this is now added by default to both bat files, you can try without it and if that works for you, all is good.) (thanks https://github.com/nota-rudveld)
+aster` now you can git pull
+-  `caffe2_nvrtc.dll`-related errors: if you are sure you properly installed hip and can see it on path, please DON'T use python from windows store, use the link provided or 3.11 from the official website. After uninstalling python from windows store and installing the one from the website, be sure the delete venv folder, and run install.bat once again.
+- `RuntimeError: GET was unable to find an engine to execute this computation` or `RuntimeError: FIND was unable to find an engine to execute this computation` in the vae decoding stage, please use CFZ CUDNN Toggle node between ksampler latent and vae decoding. And leave the enable_cudnn setting "False" , this persists until you close the comfyui from the commandline for the rest of that run. So you won't see this error again.
 
 <img width="667" height="350" alt="Screenshot 2025-08-25 123335" src="https://github.com/user-attachments/assets/db56d460-34aa-4fda-94e2-f0bae7162691" />
 
 That node can actually be used between conditioning or image loading etc so it's not only usable between latent and vae decoding , also you can use it in a simple workflow that it makes the setting disabled , than you can use any other workflow for the rest of the instance without worry. (try running the  [1step-cudnn-disabler-workflow](https://github.com/patientx/ComfyUI-Zluda/blob/master/cfz/workflows/1step-cudnn-disabler-workflow.json) in cfz folder once after you start comfyui-zluda, it can use any sd15 or sdxl model it would just generate 1 step image than preview it so no saving) after that workflow runs once, switch to any workflow or start a new one.
 
-- Problems with triton , try this : Remove visual studio 2022 (if you have already installed it and getting errors) and install "https://aka.ms/vs/17/release/vs_BuildTools.exe" , and then use  "Developer Command Prompt" to run comfyui. This option shouldn't be needed for many but nevertheless try.
+### Triton-related Errors
+- Remove visual studio 2022 (if you have already installed it and getting errors) and install "https://aka.ms/vs/17/release/vs_BuildTools.exe" , and then use  "Developer Command Prompt" to run comfyui. This option shouldn't be needed for many but nevertheless try.
 - `RuntimeError: CUDNN_BACKEND_OPERATIONGRAPH_DESCRIPTOR: cudnnFinalize FailedmiopenStatusInternalError cudnn_status: miopenStatusUnknownError` , if this is encountered at the end, while vae-decoding, use tiled-vae decoding either from official comfy nodes or from Tiled-Diffussion (my preference). Also vae-decoding is overall better with tiled-vae decoding. 
-- DO NOT use non-english characters as folder names to put comfyui-zluda under.
-- Wipe your pip cache "C:\Users\USERNAME\AppData\Local\pip\cache" You can also do this when venv is active with :  `pip cache purge`
-- `xformers` isn't usable with zluda so any nodes / packages that require it doesn't work.
-- Have the latest drivers installed for your amd gpu. **Also, Remove Any Nvidia Drivers** you might have from previous nvidia gpu's.
+* Note for 7900XT users: If running comfyui-n or comfyui-user terminates in the middle of the triton kernel test, follow the instructions in this bug: https://github.com/patientx/ComfyUI-Zluda/issues/384#issuecomment-3619519443
+  
+### Resetting An Installation and Clearing Caches
 - If for some reason you can't solve with these and want to start from zero, delete "venv" folder and re-run the whole setup again step by step.
-- If you can't git pull to the latest version, run these commands, `git fetch --all` and then `git reset --hard origin/master` now you can git pull
-- Problems with `caffe2_nvrtc.dll`: if you are sure you properly installed hip and can see it on path, please DON'T use
-  python from windows store, use the link provided or 3.11 from the official website. After uninstalling python from
-  windows store and installing the one from the website, be sure the delete venv folder, and run install.bat once again.
+- Wipe your pip cache "C:\Users\USERNAME\AppData\Local\pip\cache" You can also do this when venv is active with :  `pip cache purge`
+- Run `cache-clean.bat` from the Comfyui-ZLUDA folder to clear caches from the following directories (note that this will require recompiling models again but may fix errors):
+  1. `C:\Users\yourusername\AppData\Local\ZLUDA\ComputeCache`
+  2. `C:\Users\yourusername\.miopen`
+  3. `C:\Users\yourusername\.triton`
+- If you can't git pull to the latest version, run these commands, `git fetch --all` and then `git reset --hard origin/m`
+
+### If ComfyUI is Rendering Using Your Integrated Graphics
 - If you have an integrated GPU by AMD (e.g. AMD Radeon(TM) Graphics) you need to add `HIP_VISIBLE_DEVICES=1` to your environment variables. Other possible variables to use :
    `ROCR_VISIBLE_DEVICES=1` `HCC_AMDGPU_TARGET=1` . This basically tells it to use 1st gpu -this number could be different if you have multiple gpu's-
   Otherwise it will default to using your iGPU, which will most likely not work. This behavior is caused by a bug in the ROCm-driver.
-- Lots of other problems were encountered and solved by users so check the issues if you can't find your problem here.  
 
+  
 ## Credits
 
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI)
