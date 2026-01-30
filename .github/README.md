@@ -285,3 +285,4 @@ That node can actually be used between conditioning or image loading etc so it's
 - [LeagueRaINi](https://github.com/LeagueRaINi/ComfyUI)
 - [ComfyUI-Manager](https://github.com/ltdrdata/ComfyUI-Manager)
 - [Sfinktah](https://github.com/sfinktah)
+- [jeremymeyers](https://github.com/jeremymeyers)
