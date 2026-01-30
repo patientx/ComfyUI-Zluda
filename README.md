@@ -21,7 +21,7 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 </details>
 
 <details>
-<summary><strong>What's New?</strong> [:: ovum-cudnn-wrapper added :: new wan 2.2 i2v workflow added ::] </summary>
+<summary><strong>What's New? (26-01-2026)</strong> [:: ovum-cudnn-wrapper added :: new wan 2.2 i2v workflow added ::] </summary>
 
 ### Recent Updates
 
@@ -79,10 +79,10 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 * GIT, available from [https://git-scm.com/download/win](https://git-scm.com/download/win). During installation don't forget to check the box for "Use Git from the Windows Command line and also from 3rd-party-software" to add Git to your system's PATH.
 * Python 3.11.9 or higher (3.12 is a minimum for using Triton), available from [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/) (*The Microsoft Store version will not work.*). Make sure you check the box for "Add Python to PATH when you are at the "Customize Python" screen.
 * Visual C++ Runtime Library, available from [https://aka.ms/vs/17/release/vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-* Visual Studio Build Tools, available from "[https://aka.ms/vs/17/release/vs_BuildTools.exe](https://aka.ms/vs/17/release/vs_BuildTools.exe)" 
+* Visual Studio Build Tools, available from [https://aka.ms/vs/17/release/vs_BuildTools.exe](https://aka.ms/vs/17/release/vs_BuildTools.exe)
 
-## Setup (Windows-Only)
-### Important Notes
+## Installation (Windows-Only)
+### Important Note
 **DON'T INSTALL** into your user directory or inside Windows or Program Files directories. Don't install to a directory with Non-English characters. Best option is to install to the root directory of whichever drive you'd like.
 
 <details>
@@ -91,12 +91,12 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 Note: You *might* need older drivers for sdk 5.7.1 and old ZLUDA to work so if you are getting errors with latest drivers please install an older version (below 25.5.1) 
 
 1. Install HIP SDK 5.7.1 from "[https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html)", "Windows 10 & 11 5.7.1 HIP SDK"
+
 2. Make the following changes to your system environment variables (instructions [here](https://imatest.atlassian.net/wiki/spaces/KB/pages/12049809418/Editing+System+Environment+Variables)):
 
-* Add entries for `HIP_PATH` and `HIP_PATH_57` to your System Variables (not user variables), both should have this value: `C:\Program Files\AMD\ROCm\5.7\`
-
-* Check the PATH system variable and ensure that `C:\Program Files\AMD\ROCm\5.7\bin` is in the list. If not, add it.
-* Make sure the system variables HIP_PATH and HIP_PATH_57 exist, both should have this value: `C:\Program Files\AMD\ROCm\5.7\`
+  * Add entries for `HIP_PATH` and `HIP_PATH_57` to your System Variables (not user variables), both should have this value: `C:\Program Files\AMD\ROCm\5.7\`
+  * Check the PATH system variable and ensure that `C:\Program Files\AMD\ROCm\5.7\bin` is in the list. If not, add it.
+  * Make sure the system variables HIP_PATH and HIP_PATH_57 exist, both should have this value: `C:\Program Files\AMD\ROCm\5.7\`
 
 3. Get library files for your GPU from Brknsoul Repository (for HIP 5.7.1) [https://github.com/brknsoul/ROCmLibs](https://github.com/brknsoul/ROCmLibs) or [https://www.mediafire.com/file/boobrm5vjg7ev50/rocBLAS-HIP5.7.1-win%2528old_gpu%2529.rar/fil`](https://www.mediafire.com/file/boobrm5vjg7ev50/rocBLAS-HIP5.7.1-win%2528old_gpu%2529.rar/file)
 
@@ -130,9 +130,9 @@ install-for-older-amd.bat
 <details>
 <summary><strong>For AMD GPU VEGA through 6700</strong> (HIP 6.2.4)</summary>
 
-* **IMPORTANT**: With this install method you MUST make sure you have the latest GPU drivers (specifically you need drivers above 25.5.1)
+  **IMPORTANT**: With this install method you MUST make sure you have the latest GPU drivers (specifically you need drivers above 25.5.1)
 
-The GPUs listed below should have HIP 6.4.2 drivers available (though they have not been tested, and some may not work with the newer triton-miopen stuff). If you are updating from 6.2.4 to 6.4.2, remember to **uninstall 6.2.4 and then delete X:\program files\ROCm"** otherwise there may be problems even after uninstalling.
+The GPUs listed below should have HIP 6.4.2 drivers available (though they have not been tested, and some may not work with the newer triton-miopen stuff). If you are updating from 6.2.4 to 6.4.2, remember to **uninstall 6.2.4 and then delete the ROCm directory from your Program Files folder** otherwise there may be problems even after uninstalling.
 
 | **Card Type**  | **Model Numbers** | **gfx code** |
 | ------------- | ------------- | ------------- |
@@ -229,18 +229,15 @@ IF YOUR GPU IS NOT LISTED AS SUPPORTED BY HIP 6.4.2:
 </details>
 
 ## First-Time Launch
-* If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints copy them into `models/checkpoints` folder so you can use them with ComfyUI's default workflows. You can use [ComfyUI's Extra Model Paths YAML file](https://docs.comfy.org/development/core-concepts/models) to specify custom folders.
+* If you have done every previous step correctly, it will install without errors and start ComfyUI-ZLUDA for the first time. If you already have checkpoints copy them into your `models/checkpoints` folder so you can use them with ComfyUI's default workflows. You can use [ComfyUI's Extra Model Paths YAML file](https://docs.comfy.org/development/core-concepts/models) to specify custom folders.
 
 * The first generation will take longer than usual, ZLUDA is compiling for your GPU, it does this once for every new model type. This is necessary and unavoidable.
-* To run in the future, run `comfyui-n.bat` (unless you are on an Older GPU, in which case run `comfyui.bat`
+* To run in the future, run `comfyui-n.bat` (unless you are on an Older GPU, in which case run `comfyui.bat`.
 * You can add custom settings to `comfyui-user.bat` which will not get overwritten during software updates.
 
-## Updating ComfyUI
-> [UPDATING]
-> Everytime comfyui.bat is run, it automatically updates to the latest ZLUDA-compatible version.  Using ComfyUI's Software Update may break your installation. Always either depend on the launcher batch file or do a new `git pull`
-> Only use comfy manager to update the extensions
-> (Manager -> Custom Nodes Manager -> Set Filter To Installed -> Click Check Update On The Bottom Of The Window)
-> otherwise it breaks the basic installation, and in that case run the install once again.
+## Updating ComfyUI-ZLUDA
+* Everytime comfyui.bat is run, it automatically updates to the latest ZLUDA-compatible version.  Using ComfyUI's Software Update may break your installation. Always either depend on the launcher batch file or do a new `git pull`
+* Only use ComfyUI-Manager to update the extensions (Manager -> Custom Nodes Manager -> Set Filter To Installed -> Click Check Update On The Bottom Of The Window)
 
 ## Troubleshooting
 ### Incompatibilities
