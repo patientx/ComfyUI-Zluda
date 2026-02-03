@@ -6,6 +6,7 @@ import math
 
 from comfy.ldm.modules.attention import optimized_attention_for_device
 import comfy.model_management
+import comfy.ops
 import comfy.ldm.common_dit
 import comfy.clip_model
 
@@ -627,10 +628,10 @@ class Llama2_(nn.Module):
         mask = None
         if attention_mask is not None:
             mask = 1.0 - attention_mask.to(x.dtype).reshape((attention_mask.shape[0], 1, -1, attention_mask.shape[-1])).expand(attention_mask.shape[0], 1, seq_len, attention_mask.shape[-1])
-            mask = mask.masked_fill(mask.to(torch.bool), float("-inf"))
+            mask = mask.masked_fill(mask.to(torch.bool), torch.finfo(x.dtype).min)
 
         if seq_len > 1:
-            causal_mask = torch.empty(past_len + seq_len, past_len + seq_len, dtype=x.dtype, device=x.device).fill_(float("-inf")).triu_(1)
+            causal_mask = torch.empty(past_len + seq_len, past_len + seq_len, dtype=x.dtype, device=x.device).fill_(torch.finfo(x.dtype).min).triu_(1)
             if mask is not None:
                 mask += causal_mask
             else:
@@ -794,7 +795,19 @@ class Qwen3_2B_ACE15_lm(BaseLlama, torch.nn.Module):
         self.dtype = dtype
 
     def logits(self, x):
-        return torch.nn.functional.linear(x[:, -1:], self.model.embed_tokens.weight.to(x), None)
+        input = x[:, -1:]
+        module = self.model.embed_tokens
+
+        offload_stream = None
+        if module.comfy_cast_weights:
+            weight, _, offload_stream = comfy.ops.cast_bias_weight(module, input, offloadable=True)
+        else:
+            weight = self.model.embed_tokens.weight.to(x)
+
+        x = torch.nn.functional.linear(input, weight, None)
+
+        comfy.ops.uncast_bias_weight(module, weight, None, offload_stream)
+        return x
 
 class Qwen3_4B(BaseLlama, torch.nn.Module):
     def __init__(self, config_dict, dtype, device, operations):
