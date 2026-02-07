@@ -21,9 +21,15 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 </details>
 
 <details>
-<summary><strong>What's New? (26-01-2026)</strong> [:: ovum-cudnn-wrapper added :: new wan 2.2 i2v workflow added ::] </summary>
+<summary><strong>What's New? (26-01-2026)</strong> [:: simpler cfz-cudnn node added ::] </summary>
 
 ### Recent Updates
+
+ Added a simple "cfz-cudnn" node to the cfz-caching nodes. It is able to connect to ANY node AND can work without outputting to anything so it can be used like this for example (just to make vae work) :
+
+ <img width="842" height="255" alt="image" src="https://github.com/user-attachments/assets/085848e6-814a-4c28-9b79-356e50ad57c1" />
+
+In this example we disable cudnn just for vae decoding and enable it after , without connecting the node to image (we could do it but just showing how it can work) 
 
 - Our friend sfinktah's impressive solution for automatically enabling-disabling cudnn on comfyui, the "ovum-cudnn-wrapper" node is now automatically installed when install-n is used. Be sure to go to the node's github page and give him a star. "[https://github.com/sfinktah/ovum-cudnn-wrapper](https://github.com/sfinktah/ovum-cudnn-wrapper]" . Also adding a new "wan 2.2 i2v workflow" based on kijai's excellent wan wrapper node pack into the cfz/workflows folder, try it and of course you can remove the image input and just use it as a t2v as well (with correct loras for that). Please read the nodes carefully, 
 
