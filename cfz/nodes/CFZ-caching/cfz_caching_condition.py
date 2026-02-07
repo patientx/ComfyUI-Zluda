@@ -250,6 +250,42 @@ class load_conditioning:
         
         return True
 
+class CFZ_CUDNN:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "cudnn_enabled": ("BOOLEAN", {"default": True}),
+            },
+            "optional": {
+                "trigger": (any_type, {}),
+            },
+        }
+
+    RETURN_TYPES = (any_type,)
+    RETURN_NAMES = ("output",)
+    OUTPUT_NODE = True
+    FUNCTION = "run"
+    CATEGORY = "CFZ Utils/Debug"
+
+    def run(self, cudnn_enabled=True, trigger=None):
+        """Toggle CUDNN settings and output the trigger"""
+        try:
+            torch.backends.cudnn.enabled = cudnn_enabled
+            torch.backends.cudnn.benchmark = cudnn_enabled
+            cudnn_state = "✓ ENABLED" if cudnn_enabled else "✗ DISABLED"
+            print(f"[CFZ CUDNN] {cudnn_state}")
+        except Exception as e:
+            print(f"[CFZ CUDNN] ⚠ Error: {str(e)}")
+        
+        return (trigger,)
+
+    @classmethod
+    def IS_CHANGED(cls, **kwargs):
+        # Always execute to ensure CUDNN setting is applied
+        return float("NaN")
+
+
 class CFZ_PrintMarker:
     @classmethod
     def INPUT_TYPES(cls):
@@ -261,6 +297,7 @@ class CFZ_PrintMarker:
                 "is_end_point": ("BOOLEAN", {"default": False}),
                 "show_current_time": ("BOOLEAN", {"default": True}),
                 "clear_terminal": ("BOOLEAN", {"default": False}),
+                "cudnn_enabled": ("BOOLEAN", {"default": True}),
             },
             "optional": {
                 "trigger": (any_type, {}),
@@ -275,11 +312,23 @@ class CFZ_PrintMarker:
     CATEGORY = "CFZ Utils/Debug"
 
     def run(self, message, timer_name="workflow_timer", is_start_point=False, is_end_point=False, 
-            show_current_time=True, clear_terminal=False, trigger=None, unique_id=None, extra_pnginfo=None):
+            show_current_time=True, clear_terminal=False, cudnn_enabled=True, trigger=None, unique_id=None, extra_pnginfo=None):
         
         # Clear terminal if requested (before any output)
         if clear_terminal:
             os.system('cls' if os.name == 'nt' else 'clear')
+        
+        # Handle CUDNN settings
+        cudnn_info = ""
+        try:
+            torch.backends.cudnn.enabled = cudnn_enabled
+            torch.backends.cudnn.benchmark = cudnn_enabled
+            cudnn_state = "ENABLED" if cudnn_enabled else "DISABLED"
+            cudnn_info = f" | CUDNN: {cudnn_state}"
+            print(f"[CFZ Marker] CUDNN set to: {cudnn_state}")
+        except Exception as e:
+            cudnn_info = f" | CUDNN: ERROR ({str(e)})"
+            print(f"[CFZ Marker] ⚠ Error setting CUDNN: {e}")
         
         current_time = time.time()
         current_timestamp = datetime.fromtimestamp(current_time).strftime("%H:%M:%S.%f")[:-3]
@@ -325,8 +374,11 @@ class CFZ_PrintMarker:
         if timer_info:
             output_parts.append(timer_info)
         
+        if cudnn_info:
+            output_parts.append(cudnn_info)
+        
         final_message = " ".join(output_parts)
-        print(f"\n{final_message}\n")
+        print(final_message)
         
         return (trigger,)
 
