@@ -21,7 +21,7 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 </details>
 
 <details>
-<summary><strong>What's New? (26-01-2026)</strong> [:: simpler cfz-cudnn node added ::] </summary>
+<summary><strong>What's New? (07-01-2026)</strong> [:: simpler cfz-cudnn node added ::] </summary>
 
 ### Recent Updates
 
