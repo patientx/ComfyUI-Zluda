@@ -46,4 +46,7 @@ WanVideoDecode
 # -KSampler
 -/batched/i
 -/^cudnn_wrapped_/
+LTXVAudioVAEEncode
+LTXVAudioVAEDecode
+
 
