@@ -20,6 +20,8 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 **SOLUTION: IGNORE THE WARNING AND EXCLUDE THE ZLUDA (or better the whole comfyui-zluda) FOLDER FROM DEFENDER.**
 </details>
 
+***** There was a small problem regarding old passwords getting used instead of the actual one so github's system automatically locked my account and repos , now they are back. Sorry for your troubles and thanks for your concerns. *****
+
 <details>
 <summary><strong>What's New? (07-01-2026)</strong> [:: simpler cfz-cudnn node added ::] </summary>
 
