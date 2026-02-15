@@ -38,8 +38,11 @@ import warnings
 MMAP_TORCH_FILES = args.mmap_torch_files
 DISABLE_MMAP = args.disable_mmap
 
+# Flag to track if safe loading is available
+ALWAYS_SAFE_LOAD = False
 
-if True:  # ckpt/pt file whitelist for safe loading of old sd files
+# Check if torch supports safe globals (PyTorch 2.4+)
+if hasattr(torch.serialization, "add_safe_globals"):
     class ModelCheckpoint:
         pass
     ModelCheckpoint.__module__ = "pytorch_lightning.callbacks.model_checkpoint"
@@ -56,7 +59,15 @@ if True:  # ckpt/pt file whitelist for safe loading of old sd files
     encode.__module__ = "_codecs"
 
     torch.serialization.add_safe_globals([ModelCheckpoint, scalar, dtype, Float64DType, encode])
+    ALWAYS_SAFE_LOAD = True
     logging.info("Checkpoint files will always be loaded safely.")
+else:
+    # Fallback for older PyTorch versions (2.2, 2.3)
+    try:
+        import comfy.checkpoint_pickle
+        logging.info("Using legacy checkpoint_pickle for PyTorch < 2.4 compatibility.")
+    except ImportError:
+        logging.warning("checkpoint_pickle module not found. Some older checkpoint formats may fail to load. Consider upgrading to PyTorch 2.4+.")
 
 
 # Current as of safetensors 0.7.0
@@ -140,7 +151,18 @@ def load_torch_file(ckpt, safe_load=False, device=None, return_metadata=False):
         if MMAP_TORCH_FILES:
             torch_args["mmap"] = True
 
-        pl_sd = torch.load(ckpt, map_location=device, weights_only=True, **torch_args)
+        if ALWAYS_SAFE_LOAD or safe_load:
+            # PyTorch 2.4+ with add_safe_globals support
+            pl_sd = torch.load(ckpt, map_location=device, weights_only=True, **torch_args)
+        else:
+            # Fallback for PyTorch < 2.4: use checkpoint_pickle for compatibility
+            try:
+                import comfy.checkpoint_pickle
+                logging.warning(f"WARNING: loading {ckpt} with legacy unsafe loader (PyTorch < 2.4). Upgrade to PyTorch 2.4+ or newer for safe loading.")
+                pl_sd = torch.load(ckpt, map_location=device, pickle_module=comfy.checkpoint_pickle, **torch_args)
+            except ImportError:
+                logging.warning(f"WARNING: loading {ckpt} unsafely, checkpoint_pickle module not available. Upgrade your pytorch to 2.4 or newer to load this file safely.")
+                pl_sd = torch.load(ckpt, map_location=device, weights_only=True, **torch_args)
 
         if "state_dict" in pl_sd:
             sd = pl_sd["state_dict"]
