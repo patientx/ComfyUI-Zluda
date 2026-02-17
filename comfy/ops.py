@@ -21,6 +21,7 @@ import logging
 import comfy.model_management
 from comfy.cli_args import args, PerformanceFeature, enables_dynamic_vram
 import comfy.float
+import comfy.rmsnorm
 import json
 import comfy.memory_management
 import comfy.pinned_memory
@@ -462,7 +463,7 @@ class disable_weight_init:
             else:
                 return super().forward(*args, **kwargs)
 
-    class RMSNorm(torch.nn.RMSNorm, CastWeightBiasOp):
+    class RMSNorm(comfy.rmsnorm.RMSNorm, CastWeightBiasOp):
         def reset_parameters(self):
             self.bias = None
             return None
@@ -474,7 +475,7 @@ class disable_weight_init:
                 weight = None
                 bias = None
                 offload_stream = None
-            x = torch.nn.functional.rms_norm(input, self.normalized_shape, weight, self.eps)
+            x = comfy.rmsnorm.rms_norm(input, weight, self.eps)
             uncast_bias_weight(self, weight, bias, offload_stream)
             return x
 
