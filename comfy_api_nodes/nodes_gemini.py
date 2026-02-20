@@ -316,6 +316,7 @@ class GeminiNode(IO.ComfyNode):
                     default="",
                     optional=True,
                     tooltip="Foundational instructions that dictate an AI's behavior.",
+                    advanced=True,
                 ),
             ],
             outputs=[
@@ -593,6 +594,7 @@ class GeminiImage(IO.ComfyNode):
                     tooltip="Choose 'IMAGE' for image-only output, or "
                     "'IMAGE+TEXT' to return both the generated image and a text response.",
                     optional=True,
+                    advanced=True,
                 ),
                 IO.String.Input(
                     "system_prompt",
@@ -600,6 +602,7 @@ class GeminiImage(IO.ComfyNode):
                     default=GEMINI_IMAGE_SYS_PROMPT,
                     optional=True,
                     tooltip="Foundational instructions that dictate an AI's behavior.",
+                    advanced=True,
                 ),
             ],
             outputs=[
@@ -714,6 +717,7 @@ class GeminiImage2(IO.ComfyNode):
                     options=["IMAGE+TEXT", "IMAGE"],
                     tooltip="Choose 'IMAGE' for image-only output, or "
                     "'IMAGE+TEXT' to return both the generated image and a text response.",
+                    advanced=True,
                 ),
                 IO.Image.Input(
                     "images",
@@ -733,6 +737,7 @@ class GeminiImage2(IO.ComfyNode):
                     default=GEMINI_IMAGE_SYS_PROMPT,
                     optional=True,
                     tooltip="Foundational instructions that dictate an AI's behavior.",
+                    advanced=True,
                 ),
             ],
             outputs=[
