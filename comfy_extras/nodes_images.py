@@ -588,6 +588,7 @@ class ImageRotate(IO.ComfyNode):
     def define_schema(cls):
         return IO.Schema(
             node_id="ImageRotate",
+            display_name="Image Rotate",
             search_aliases=["turn", "flip orientation"],
             category="image/transform",
             essentials_category="Image Tools",
