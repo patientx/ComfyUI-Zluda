@@ -119,7 +119,7 @@ Note: You *might* need older drivers for sdk 5.7.1 and old ZLUDA to work so if y
 6. Copy these commands one by one and press enter after each one:
 
 ```bash
-git clone https://github.com/patientx/ComfyUI-Zluda
+git clone -b pre24patched https://github.com/patientx/ComfyUI-Zluda 
 ```
 
 ```bash
