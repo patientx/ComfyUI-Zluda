@@ -2435,6 +2435,7 @@ async def init_builtin_extra_nodes():
         "nodes_audio_encoder.py",
         "nodes_rope.py",
         "nodes_logic.py",
+        "nodes_resolution.py",
         "nodes_nop.py",
         "nodes_kandinsky5.py",
         "nodes_wanmove.py",
@@ -2447,6 +2448,7 @@ async def init_builtin_extra_nodes():
         "nodes_toolkit.py",
         "nodes_replacements.py",
         "nodes_nag.py",
+        "nodes_sdpose.py",
     ]
 
     import_failed = []
