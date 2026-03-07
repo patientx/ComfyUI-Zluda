@@ -1149,6 +1149,7 @@ def reset_cast_buffers():
     LARGEST_CASTED_WEIGHT = (None, 0)
     for offload_stream in STREAM_CAST_BUFFERS:
         offload_stream.synchronize()
+    synchronize()
     STREAM_CAST_BUFFERS.clear()
     soft_empty_cache()
 
