@@ -418,6 +418,9 @@ packages_to_monitor = [
     "pydantic-settings",
     "comfy-kitchen",
     "comfy-aimdo",
+    "requests",
+    "simpleeval",
+    "blake3",
 ]
 
 print("\n  ::  Checking package versions...")
