@@ -90,7 +90,7 @@ _TYPES = {
 
 #    "U64": torch.uint64,
 #    "U32": torch.uint32,
-    "U16": torch.uint16,
+#    "U16": torch.uint16,
 }
 
 def load_safetensors(ckpt):
