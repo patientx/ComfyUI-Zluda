@@ -1051,6 +1051,12 @@ def intermediate_device():
     else:
         return torch.device("cpu")
 
+def intermediate_dtype():
+    if args.fp16_intermediates:
+        return torch.float16
+    else:
+        return torch.float32
+
 def vae_device():
     if args.cpu_vae:
         return torch.device("cpu")
@@ -1705,6 +1711,19 @@ def supports_fp8_compute(device=None):
 
 def supports_nvfp4_compute(device=None):
     if not is_nvidia():
+        return False
+
+    props = torch.cuda.get_device_properties(device)
+    if props.major < 10:
+        return False
+
+    return True
+
+def supports_mxfp8_compute(device=None):
+    if not is_nvidia():
+        return False
+
+    if torch_version_numeric < (2, 10):
         return False
 
     props = torch.cuda.get_device_properties(device)
