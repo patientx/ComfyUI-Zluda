@@ -81,6 +81,7 @@ class CLIPTextEncode(ComfyNodeABC):
 
 
 class ConditioningCombine:
+    ESSENTIALS_CATEGORY = "Image Generation"
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"conditioning_1": ("CONDITIONING", ), "conditioning_2": ("CONDITIONING", )}}
@@ -1778,6 +1779,7 @@ class LoadImage:
         return True
 
 class LoadImageMask:
+    ESSENTIALS_CATEGORY = "Image Tools"
     SEARCH_ALIASES = ["import mask", "alpha mask", "channel mask"]
 
     _color_channels = ["alpha", "red", "green", "blue"]
@@ -1886,6 +1888,7 @@ class ImageScale:
         return (s,)
 
 class ImageScaleBy:
+    ESSENTIALS_CATEGORY = "Image Tools"
     upscale_methods = ["nearest-exact", "bilinear", "area", "bicubic", "lanczos"]
 
     @classmethod
