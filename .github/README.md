@@ -21,9 +21,11 @@ The antiviruses, including Windows Defender on my computer, didn't detect them a
 </details>
 
 <details>
-<summary><strong>What's New? (07-01-2026)</strong> [:: simpler cfz-cudnn node added ::] </summary>
+<summary><strong>What's New? (19-03-2026)</strong> [:: ltxv2.3 i2v workflow added ::] </summary>
 
 ### Recent Updates
+
+ Added a ltx2.3 workflow to the workflows folder, that is designed to be fast and efficient , while using lowest amount of memory. It is for i2v and it only uses the distilled version of the ltxv2.3 model , no upscaling, no second stage. (based on a workflow by Kijai).
 
  Added a simple "cfz-cudnn" node to the cfz-caching nodes. It is able to connect to ANY node AND can work without outputting to anything so it can be used like this for example (just to make vae work) :
 
