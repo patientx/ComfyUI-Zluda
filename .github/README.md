@@ -6,7 +6,7 @@ Windows-only version of ComfyUI which uses ZLUDA to get better performance with 
 
 </div>
 
-*** check out my new project, [comfyui-rocm](https://github.com/patientx-cfz/comfyui-rocm) , it is using AMD's official ROCm and PyTorch packages from their TheRock repo. At the moment, RDNA2 (no igpus) , RDNA3 and RDNA4 GPU's are supported. It seems there is new RDNA1 builds happening as well, I am going to try to add them later. This is different from Comfyui-Zluda in some points, it doesn't use zluda or other 3rd party apps to launch comfyui, we need "less" tricks to make comfyui run with amd gpu's well and I tried a different approach with python as well, it is installed in a folder so in a sense, it is partially portable. It "hopefully" auto-detects your GPU (from the supported ones) and installs the necessary ROCm and PyTorch packages then comfyui. Give it a try ! ***
+*** NEW PROJECT for RDNA1 to RDNA4, [comfyui-rocm](https://github.com/patientx-cfz/comfyui-rocm) , it is using AMD's official ROCm and PyTorch packages from their TheRock repo. At the moment, it supports every gpu from RDNA1 (5000 series) to the latest RDNA4 (9000 series) *** some 6000 mobile gpus excluded ***. This is different from Comfyui-Zluda , it doesn't use zluda or other 3rd party apps to launch comfyui , it is also partially portable. It auto-detects your GPU (from the supported ones) and installs the necessary ROCm and PyTorch packages plus triton , sage-attention , flash-attention and bitsandbytes comfyui. Give it a try ! ***
 
 <details>
 <summary><strong>FOR THOSE THAT ARE GETTING TROJAN DETECTIONS IN NCCL.DLL IN ZLUDA FOLDER</strong></summary>
