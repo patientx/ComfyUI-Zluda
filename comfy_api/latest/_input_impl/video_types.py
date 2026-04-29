@@ -284,13 +284,16 @@ class VideoFromFile(VideoInput):
 
                         if not checked_alpha:
                             for comp in frame.format.components:
-                                if comp.is_alpha:
+                                if comp.is_alpha or frame.format.name == "pal8":
                                     alphas = []
                                     image_format = 'gbrapf32le'
                                     break
                             checked_alpha = True
 
                         img = frame.to_ndarray(format=image_format)  # shape: (H, W, 4)
+                        if frame.rotation != 0:
+                            k = int(round(frame.rotation // 90))
+                            img = np.rot90(img, k=k, axes=(0, 1)).copy()
                         if alphas is None:
                             frames.append(torch.from_numpy(img))
                         else:
