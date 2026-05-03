@@ -13,6 +13,7 @@ except:
     logging.warning("Please update pytorch to use native RMSNorm")
 
 
+# Note: torch's fused F.rms_norm is faster but produces slightly different output than manual implementations (rsqrt/reduction rounding).
 def rms_norm(x, weight=None, eps=1e-6):
     if rms_norm_torch is not None and not (torch.jit.is_tracing() or torch.jit.is_scripting()):
         if weight is None:
