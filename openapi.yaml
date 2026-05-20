@@ -4162,7 +4162,8 @@ paths:
                   description: Display name for the API key
                 description:
                   type: string
-                  description: User-provided description for the key
+                  description: User-provided description of the key's purpose
+                  maxLength: 5000
       responses:
         "201":
           description: API key created
@@ -7680,6 +7681,7 @@ components:
       required:
         - id
         - name
+        - description
       properties:
         id:
           type: string
@@ -7687,8 +7689,8 @@ components:
           type: string
         description:
           type: string
-          nullable: true
-          description: User-provided description
+          maxLength: 5000
+          description: User-provided description of the key's purpose. Always present in responses; empty string when no description was supplied on create.
         prefix:
           type: string
           description: First few characters of the key for identification
@@ -7709,6 +7711,7 @@ components:
       required:
         - id
         - name
+        - description
         - key
       properties:
         id:
@@ -7717,8 +7720,8 @@ components:
           type: string
         description:
           type: string
-          nullable: true
-          description: User-provided description
+          maxLength: 5000
+          description: User-provided description of the key's purpose. Always present in responses; empty string when no description was supplied on create.
         key:
           type: string
           description: Full API key value (only returned on creation)
