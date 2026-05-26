@@ -27,7 +27,6 @@ import platform
 import weakref
 import gc
 import os
-import comfy.zluda
 from contextlib import nullcontext
 import comfy.memory_management
 import comfy.utils
