@@ -39,10 +39,10 @@ if __name__ == "__main__":
 
 faulthandler.enable(file=sys.stderr, all_threads=False)
 
-# import comfy_aimdo.control
+import comfy_aimdo.control
 
-# if enables_dynamic_vram():
-    # comfy_aimdo.control.init()  #NOTE:aimdo doesn't work with amd gpu's at the moment, no need to check everytime and show the error.
+if enables_dynamic_vram():
+    comfy_aimdo.control.init()  #NOTE:aimdo doesn't work with amd gpu's at the moment, no need to check everytime and show the error.
 
 if os.name == "nt":
     os.environ['MIMALLOC_PURGE_DELAY'] = '0'
