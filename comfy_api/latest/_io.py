@@ -777,6 +777,17 @@ class Load3DCamera(ComfyTypeIO):
     Type = CameraInfo
 
 
+@comfytype(io_type="LOAD3D_MODEL_INFO")
+class Load3DModelInfo(ComfyTypeIO):
+    class Model3DTransform(TypedDict):
+        # Coordinate system: right-handed, Y-up, world space
+        position: dict[str, float | int]  # scene units
+        quaternion: dict[str, float | int]  # normalized, dimensionless; world rotation
+        scale: dict[str, float | int]  # dimensionless multiplier
+
+    Type = list[Model3DTransform]
+
+
 @comfytype(io_type="LOAD_3D")
 class Load3D(ComfyTypeIO):
     """3D models are stored as a dictionary."""
@@ -786,6 +797,7 @@ class Load3D(ComfyTypeIO):
         normal: str
         camera_info: Load3DCamera.CameraInfo
         recording: NotRequired[str]
+        model_3d_info: NotRequired[list[Load3DModelInfo.Model3DTransform]]
 
     Type = Model3DDict
 
@@ -2298,6 +2310,7 @@ __all__ = [
     "FlowControl",
     "Accumulation",
     "Load3DCamera",
+    "Load3DModelInfo",
     "Load3D",
     "Load3DAnimation",
     "Photomaker",
