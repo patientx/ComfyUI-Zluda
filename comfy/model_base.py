@@ -65,6 +65,7 @@ import comfy.ldm.ernie.model
 import comfy.ldm.sam3.detector
 import comfy.ldm.hidream_o1.model
 from comfy.ldm.hidream_o1.conditioning import build_extra_conds
+import comfy.ldm.depth_anything_3.model
 
 import comfy.model_management
 import comfy.patcher_extension
@@ -1518,7 +1519,25 @@ class WAN21(BaseModel):
         if reference_latents is not None:
             out['reference_latent'] = comfy.conds.CONDRegular(self.process_latent_in(reference_latents[-1])[:, :, 0])
 
+        # In-context reference conditioning (Bernini)
+        context_latents = kwargs.get("context_latents", None)
+        if context_latents is not None:
+            out['context_latents'] = comfy.conds.CONDList([self.process_latent_in(l) for l in context_latents])
+
         return out
+
+    def resize_cond_for_context_window(self, cond_key, cond_value, window, x_in, device, retain_index_list=[]):
+        # In-context cond slicing (Bernini)
+        if cond_key == "context_latents" and isinstance(getattr(cond_value, "cond", None), list):
+            dim = window.dim
+            out = []
+            for lat in cond_value.cond:
+                if lat.ndim > dim and lat.shape[dim] > 1 and lat.shape[dim] == x_in.shape[dim]:
+                    out.append(window.get_tensor(lat, device, dim=dim, retain_index_list=retain_index_list))
+                else:
+                    out.append(lat.to(device))
+            return cond_value._copy_with(out)
+        return super().resize_cond_for_context_window(cond_key, cond_value, window, x_in, device, retain_index_list=retain_index_list)
 
 
 class WAN21_CausalAR(WAN21):
@@ -2300,6 +2319,12 @@ class Kandinsky5Image(Kandinsky5):
 class RT_DETR_v4(BaseModel):
     def __init__(self, model_config, model_type=ModelType.FLOW, device=None):
         super().__init__(model_config, model_type, device=device, unet_model=comfy.ldm.rt_detr.rtdetr_v4.RTv4)
+
+
+class DepthAnything3(BaseModel):
+    def __init__(self, model_config, model_type=ModelType.FLOW, device=None):
+        super().__init__(model_config, model_type, device=device,
+                         unet_model=comfy.ldm.depth_anything_3.model.DepthAnything3Net)
 
 class ErnieImage(BaseModel):
     def __init__(self, model_config, model_type=ModelType.FLOW, device=None):

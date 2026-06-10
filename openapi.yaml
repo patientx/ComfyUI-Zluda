@@ -1960,8 +1960,8 @@ paths:
                         schema:
                             properties:
                                 hash:
-                                    description: Hash of the existing asset. Supports Blake3 (blake3:) or SHA256 (sha256:) formats
-                                    pattern: ^(blake3|sha256):[a-f0-9]{64}$
+                                    description: 'Blake3 content hash of the existing asset (blake3: prefix)'
+                                    pattern: ^blake3:[a-f0-9]{64}$
                                     type: string
                                 mime_type:
                                     description: MIME type of the asset (e.g., "image/png", "video/mp4")
