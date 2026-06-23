@@ -1831,7 +1831,7 @@ class Krea2(supported_models_base.BASE):
         "shift": 1.15,
     }
 
-    memory_usage_factor = 3.0 #TODO
+    memory_usage_factor = 2.2
 
     latent_format = latent_formats.Wan21
 
