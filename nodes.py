@@ -1709,6 +1709,7 @@ class PreviewImage(SaveImage):
         self.compress_level = 1
 
     SEARCH_ALIASES = ["preview", "preview image", "show image", "view image", "display image", "image viewer"]
+    DESCRIPTION = "Preview the images without saving them to the ComfyUI output directory."
 
     @classmethod
     def INPUT_TYPES(s):
@@ -2504,6 +2505,7 @@ async def init_builtin_extra_nodes():
         "nodes_triposplat.py",
         "nodes_depth_anything_3.py",
         "nodes_seed.py",
+        "nodes_text.py",
     ]
 
     import_failed = []
