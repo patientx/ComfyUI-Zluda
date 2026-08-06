@@ -964,6 +964,7 @@ class MiniMaxH3(supported_models_base.BASE):
 
     sampling_settings = {
         "shift": 12.0,
+        "audio_shift": 3.0,
     }
 
     unet_extra_config = {}
