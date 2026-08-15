@@ -27,6 +27,8 @@ echo  ::  %time:~0,8%  ::  Beginning installation ...
 echo.
 echo  ::  %time:~0,8%  ::  - Installing required packages (it will be detailed so you can pinpoint any problems)
 pip install -r requirements.txt
+echo  ::  %time:~0,8%  ::  - Removing comfy-kitchen (incompatible with torch 2.2.1, needed for older amd/apus)
+pip uninstall -y comfy-kitchen --quiet
 echo  ::  %time:~0,8%  ::  - Installing torch for AMD GPUs (it will be detailed so you can pinpoint any problems)
 pip uninstall torch torchvision torchaudio -y --quiet
 pip install torch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 --index-url https://download.pytorch.org/whl/cu118 --quiet

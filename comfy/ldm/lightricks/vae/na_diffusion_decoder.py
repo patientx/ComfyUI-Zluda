@@ -27,7 +27,12 @@ import comfy.model_management
 from comfy.ldm.lightricks.model import get_timestep_embedding
 from .causal_video_autoencoder import Encoder, processor
 
-import comfy_kitchen
+try:
+    import comfy_kitchen
+except (ImportError, AttributeError) as e:
+    import logging
+    logging.warning(f"comfy_kitchen unavailable ({e}); this LTX NA-diffusion VAE decoder will not work without it.")
+    comfy_kitchen = None
 
 # Token chunk for the SwiGLU MLP (bounds the [chunk, hidden] workspace).
 MLP_TOKEN_CHUNK = 65536

@@ -10,7 +10,11 @@ from typing import Optional, Any, Callable, Union
 import logging
 import functools
 
-import comfy_kitchen
+try:
+    import comfy_kitchen
+except (ImportError, AttributeError) as e:
+    logging.warning(f"comfy_kitchen unavailable ({e}); int8/kitchen attention paths disabled.")
+    comfy_kitchen = None
 
 from .diffusionmodules.util import AlphaBlender, timestep_embedding
 from .sub_quadratic_attention import efficient_dot_product_attention
@@ -51,7 +55,7 @@ except ImportError:
         logging.error(f"\n\nTo use the `--use-flash-attention` feature, the `flash-attn` package must be installed first.\ncommand:\n\t{sys.executable} -m pip install flash-attn")
         exit(-1)
 
-COMFY_KITCHEN_INT8_ATTENTION_IS_AVAILABLE = comfy_kitchen.int8_attention_is_available()
+COMFY_KITCHEN_INT8_ATTENTION_IS_AVAILABLE = comfy_kitchen is not None and comfy_kitchen.int8_attention_is_available()
 
 REGISTERED_ATTENTION_FUNCTIONS = {}
 def register_attention_function(name: str, func: Callable):
