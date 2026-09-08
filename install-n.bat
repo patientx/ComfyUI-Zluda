@@ -27,10 +27,9 @@ echo.
 echo  ::  %time:~0,8%  ::  Beginning installation ...
 echo.
 echo  ::  %time:~0,8%  ::  - Installing required packages
+pip install --force-reinstall --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu118 --quiet
 pip install -r requirements.txt --quiet
 echo  ::  %time:~0,8%  ::  - Installing torch for AMD GPUs (First file is 2.7 GB, please be patient)
-pip uninstall torch torchvision torchaudio -y --quiet
-pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu118 --quiet
 echo  ::  %time:~0,8%  ::  - Installing onnxruntime (required by some nodes)
 pip install onnxruntime --quiet
 echo  ::  %time:~0,8%  ::  - (temporary numpy fix)
