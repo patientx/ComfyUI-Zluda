@@ -6,7 +6,9 @@ Windows-only version of ComfyUI which uses ZLUDA to get better performance with 
 
 </div>
 
-*** NEW PROJECT for RDNA1 to RDNA4, [comfyui-rocm](https://github.com/patientx-cfz/comfyui-rocm) , it is using AMD's official ROCm and PyTorch packages from their TheRock repo. At the moment, it supports every gpu from RDNA1 (5000 series) to the latest RDNA4 (9000 series) *** some 6000 mobile gpus excluded ***. This is different from Comfyui-Zluda , it doesn't use zluda or other 3rd party apps to launch comfyui , it is also partially portable. It auto-detects your GPU (from the supported ones) and installs the necessary ROCm and PyTorch packages plus triton , sage-attention , flash-attention and bitsandbytes comfyui. Give it a try ! ***
+*** Thank you all for the 1000 stars this project finally got. There is very little that can be done here and if you have something recent like any of the rdna gpus (5000s, 6000-7000 or 9000s and various recent apus. PLEASE USE THE ROCM FORK INSTEAD OF THIS ONE. That one has a future, this one is done. I am only keeping it up-to-date but one of these days we might finally got an update on comfyui that would make it stop working here permanently. 
+
+*** NEW PROJECT for RDNA1 to RDNA4, [comfyui-rocm](https://github.com/patientx-cfz/comfyui-rocm) , it is using AMD's official ROCm and PyTorch packages from their TheRock repo. At the moment, it supports every gpu from RDNA1 (5000 series) to the latest RDNA4 (9000 series). This is different from Comfyui-Zluda , it doesn't use zluda or other 3rd party apps to launch comfyui , it is also partially portable. It auto-detects your GPU (from the supported ones) and installs the necessary ROCm and PyTorch packages plus triton , sage-attention , flash-attention and bitsandbytes comfyui. Give it a try ! ***
 
 <details>
 <summary><strong>FOR THOSE THAT ARE GETTING TROJAN DETECTIONS IN NCCL.DLL IN ZLUDA FOLDER</strong></summary>
